@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Monolith"
-include ':app', ':icons'
+include ':app'

@@ -1,7 +1,0 @@
-const { chromium } = require('playwright'); const fs = require('fs');
-const { defs, icons } = JSON.parse(fs.readFileSync('icons.json')); const off = JSON.parse(fs.readFileSync('offsets.json'));
-const defsXml = Object.entries(defs).map(([k, [a, c]]) => `<linearGradient id="${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${c}"/></linearGradient>`).join('');
-let html = `<html><body style="margin:0;padding:24px;background:#1d2130;display:grid;grid-template-columns:repeat(10,120px);gap:18px;width:1400px;font:12px sans-serif;color:#ccd"><svg width="0" height="0" style="position:absolute"><defs>${defsXml}</defs></svg>`;
-for (const ic of icons) { const [dx, dy] = off[ic.name] || [0, 0];
-  html += `<div style="text-align:center"><div style="width:120px;height:120px;border-radius:60px;background:${ic.tile};display:flex;align-items:center;justify-content:center"><svg width="80" height="80" viewBox="0 0 24 24">${ic.layers.map(l => `<path transform="translate(${dx} ${dy})" d="${l.d}" fill="${l.f}" stroke="${l.s}" stroke-width="${l.w}" opacity="${l.o}" stroke-linecap="round" stroke-linejoin="round" fill-rule="evenodd"/>`).join('')}</svg></div>${ic.name}</div>`; }
-(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1420, height: 360 } }); await p.setContent(html + '</body></html>'); await p.screenshot({ path: 'preview.png', fullPage: true }); await b.close(); })();
