@@ -57,6 +57,20 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".W$Dock" android:exported="true" android:label="@string/w_dock">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/info_dock" />
+        </receiver>
+
+        <activity
+            android:name=".DockConfig"
+            android:exported="true"
+            android:theme="@style/AppTheme"
+            android:excludeFromRecents="true"
+            android:taskAffinity="">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" /></intent-filter>
+        </activity>
+
         <receiver android:name=".W$Display" android:exported="true" android:label="@string/w_display">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/info_display" />
