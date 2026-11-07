@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Spun by an indeterminate ProgressBar: the one animation launchers keep running inside widgets. -->
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/charge_orbit_arc"
-    android:fromDegrees="0"
-    android:pivotX="50%"
-    android:pivotY="50%"
-    android:toDegrees="360" />
