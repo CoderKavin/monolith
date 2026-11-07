@@ -39,8 +39,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete latest --yes --cleanup-tag || true
-          gh release create latest Monolith.apk version.txt \
+          # Replace the files in place (APK first, then the version number), so the phone never
+          # finds the release missing mid-build.
+          gh release view latest >/dev/null 2>&1 || gh release create latest \
             --title "Monolith (latest build)" \
-            --notes "Open this page on your phone and tap Monolith.apk to install." \
-            --target "${GITHUB_SHA}"
+            --notes "Open this page on your phone and tap Monolith.apk to install."
+          gh release upload latest Monolith.apk --clobber
+          gh release upload latest version.txt --clobber

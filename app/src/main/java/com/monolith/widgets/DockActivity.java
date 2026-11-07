@@ -44,6 +44,7 @@ public class DockActivity extends Activity {
     private int screenW, screenH;
     private float density;
     private View countRow;
+    private TextView allow;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -57,6 +58,57 @@ public class DockActivity extends Activity {
         if (f.exists()) source = BitmapFactory.decodeFile(f.getAbsolutePath());
         buildUi();
         refresh();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadCurrentWallpaper();
+    }
+
+    /**
+     * Uses the wallpaper you have now. Once Monolith has set one, it keeps working from the clean
+     * original it saved, unless you've since changed wallpaper, so the bar never gets drawn twice.
+     */
+    private void loadCurrentWallpaper() {
+        if (!android.os.Environment.isExternalStorageManager()) {
+            allow.setVisibility(View.VISIBLE);
+            return;
+        }
+        allow.setVisibility(View.GONE);
+        WallpaperManager wm = WallpaperManager.getInstance(this);
+        int now = wm.getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+        int ours = getSharedPreferences("dockwall", MODE_PRIVATE).getInt("ourId", Integer.MIN_VALUE);
+        if (source != null && now == ours) return;
+        new Thread(() -> {
+            try {
+                android.graphics.drawable.Drawable d = android.os.Build.VERSION.SDK_INT >= 34
+                        ? wm.getDrawable(WallpaperManager.FLAG_SYSTEM) : null;
+                if (d == null) d = wm.getDrawable();
+                if (d == null) return;
+                Bitmap bmp;
+                if (d instanceof android.graphics.drawable.BitmapDrawable && ((android.graphics.drawable.BitmapDrawable) d).getBitmap() != null) {
+                    bmp = ((android.graphics.drawable.BitmapDrawable) d).getBitmap().copy(Bitmap.Config.ARGB_8888, false);
+                } else {
+                    int w = Math.max(1, d.getIntrinsicWidth() > 0 ? d.getIntrinsicWidth() : screenW);
+                    int h = Math.max(1, d.getIntrinsicHeight() > 0 ? d.getIntrinsicHeight() : screenH);
+                    bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                    d.setBounds(0, 0, w, h);
+                    d.draw(new android.graphics.Canvas(bmp));
+                }
+                try (FileOutputStream os = new FileOutputStream(sourceFile())) {
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 95, os);
+                }
+                final Bitmap got = bmp;
+                runOnUiThread(() -> {
+                    source = got;
+                    status.setText("Using your current wallpaper.");
+                    refresh();
+                });
+            } catch (IOException | RuntimeException e) {
+                runOnUiThread(() -> status.setText("Couldn't read your wallpaper, choose the photo instead."));
+            }
+        }).start();
     }
 
     private File sourceFile() {
@@ -78,7 +130,7 @@ public class DockActivity extends Activity {
         });
 
         root.addView(text("Dock bar", 34, R.font.gsf_t540, R.color.ink));
-        TextView body = text("A glass or solid bar behind the apps in your dock. Android doesn't let widgets go there, so Monolith draws the bar into your wallpaper and sets it as your home screen. Pick the photo you use as your wallpaper.",
+        TextView body = text("A glass or solid bar behind the apps in your dock. Android doesn't let widgets go there, so Monolith draws the bar into your current wallpaper and sets it as your home screen.",
                 14, R.font.gsf_t540, R.color.ink_2);
         body.setLineSpacing(0, 1.15f);
         root.addView(body, margins(0, 8));
@@ -100,7 +152,23 @@ public class DockActivity extends Activity {
         plp.topMargin = dp(22);
         root.addView(preview, plp);
 
-        TextView choose = pill("Choose wallpaper photo", false);
+        allow = pill("Allow access to use your wallpaper", true);
+        allow.setOnClickListener(v -> {
+            try {
+                startActivity(new Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:" + getPackageName())));
+            } catch (RuntimeException e) {
+                startActivity(new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+            }
+        });
+        allow.setVisibility(View.GONE);
+        root.addView(allow, margins(0, 18));
+        TextView why = text("Android only shares your real wallpaper with apps that have All files access. Monolith reads the wallpaper and nothing else.",
+                12, R.font.gsf_t540, R.color.ink_3);
+        why.setLineSpacing(0, 1.15f);
+        root.addView(why, margins(0, 6));
+
+        TextView choose = pill("Use a different photo", false);
         choose.setOnClickListener(v -> pick());
         LinearLayout.LayoutParams clp = margins(0, 18);
         clp.gravity = Gravity.CENTER_HORIZONTAL;
@@ -326,7 +394,10 @@ public class DockActivity extends Activity {
         new Thread(() -> {
             try {
                 Bitmap full = DockWall.compose(this, source, screenW, screenH, s, density);
-                WallpaperManager.getInstance(this).setBitmap(full, null, true, WallpaperManager.FLAG_SYSTEM);
+                WallpaperManager wm = WallpaperManager.getInstance(this);
+                int id = wm.setBitmap(full, null, true, WallpaperManager.FLAG_SYSTEM);
+                // Remember which wallpaper is ours, so next time we start from the clean original.
+                getSharedPreferences("dockwall", MODE_PRIVATE).edit().putInt("ourId", id).apply();
                 runOnUiThread(() -> status.setText("Done. Go home and check the bar sits behind your dock icons; adjust Height from bottom if it doesn't, then set it again."));
             } catch (IOException | RuntimeException e) {
                 runOnUiThread(() -> status.setText("Couldn't set the wallpaper: " + e.getMessage()));

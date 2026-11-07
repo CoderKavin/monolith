@@ -11,6 +11,8 @@
     <!-- In-app updates from the project's GitHub release. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <!-- Android only hands apps your actual wallpaper with All files access; used by Dock bar to read it. -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- Screen time: the user turns this on in Settings → Usage access. -->
     <uses-permission

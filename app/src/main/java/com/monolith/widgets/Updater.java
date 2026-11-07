@@ -54,6 +54,15 @@ final class Updater {
 
     /** Latest published version code, or -1 if it can't be reached. */
     static long latestVersion() {
+        long v = fetchLatest();
+        if (v < 0) {
+            try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+            v = fetchLatest();
+        }
+        return v;
+    }
+
+    private static long fetchLatest() {
         HttpURLConnection conn = null;
         try {
             conn = open(BASE + "version.txt");
