@@ -25,6 +25,7 @@
     <color name="g_error">#FFB3261E</color>
 
     <color name="g_on_wall">@android:color/system_neutral1_900</color>
+    <color name="g_wall_tint">@android:color/system_accent1_800</color>
     <color name="g_wall_accent">@android:color/system_accent1_700</color>
     <color name="g_wall_shadow">#00000000</color>
 
