@@ -26,7 +26,7 @@
     <string name="update_check">Check</string>
     <string name="update_now">Update</string>
     <string name="update_working">Downloading…</string>
-    <string name="tagline">Material 3 Expressive widgets. Colours follow your wallpaper and light or dark mode.</string>
+    <string name="tagline">Widgets that take their colour from your wallpaper.</string>
     <string name="usage_title">Screen time</string>
     <string name="usage_off">Needs Usage access to read how long you use each app. Nothing leaves your phone.</string>
     <string name="usage_on">Usage access is on.</string>
@@ -35,4 +35,5 @@
     <string name="saver_off">Android only lets an app switch power saving after a one-time grant from a computer:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nUntil then, tapping the widget opens the power saving screen.</string>
     <string name="saver_on">Granted. Tapping the Battery widget switches power saving on and off.</string>
     <string name="tip">Set Settings → Apps → Monolith → Battery → Unrestricted so Battery and Screen time stay current. Clocks keep time on their own.</string>
+    <string name="saver_detail">Android only lets an app switch power saving after a one-time grant from a computer. Connect your phone with USB debugging on and run:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nTap here to copy it. Until then, the Battery widget opens the power saving screen.</string>
 </resources>

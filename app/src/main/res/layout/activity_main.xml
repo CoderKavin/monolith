@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Monolith home: update chip, wordmark, Dock bar feature, widget gallery, setup list. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="@color/ui_bg"
     android:clipToPadding="false"
     android:fillViewport="true">
 
@@ -11,211 +12,162 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ui_bg_glow"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Update status -->
+        <TextView
+            android:id="@+id/update_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/ui_chip"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/gsf_t620"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="14dp"
+            android:text="@string/update_checking"
+            android:textColor="@color/ui_sub"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gsf_t540"
-            android:letterSpacing="-0.02"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/gsf_r620"
+            android:includeFontPadding="false"
+            android:letterSpacing="-0.035"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:text="@string/app_name"
-            android:textColor="@color/ink"
-            android:textSize="40sp" />
+            android:textColor="@color/ui_ink"
+            android:textSize="52sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/gsf_t540"
             android:lineSpacingMultiplier="1.15"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:text="@string/tagline"
-            android:textColor="@color/ink_2"
+            android:textColor="@color/ui_sub"
             android:textSize="15sp" />
 
-        <!-- Updates -->
-        <LinearLayout
+        <!-- Featured: Dock bar -->
+        <FrameLayout
+            android:id="@+id/dock_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/panel"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="18dp">
+            android:layout_height="168dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/ui_feature"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="18dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gsf_t620"
-                    android:text="@string/update_title"
-                    android:textColor="@color/ink"
-                    android:textSize="16sp" />
+                    android:letterSpacing="0.06"
+                    android:text="NEW"
+                    android:textColor="#C7FFFFFF"
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/update_body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:fontFamily="@font/gsf_t540"
-                    android:lineSpacingMultiplier="1.15"
-                    android:text="@string/update_checking"
-                    android:textColor="@color/ink_2"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/update_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:background="@drawable/pill"
-                android:fontFamily="@font/gsf_t620"
-                android:paddingStart="18dp"
-                android:paddingTop="9dp"
-                android:paddingEnd="18dp"
-                android:paddingBottom="9dp"
-                android:text="@string/update_check"
-                android:textColor="@color/app_bg"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Dock bar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/panel"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="18dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:fontFamily="@font/gsf_t620"
+                    android:letterSpacing="-0.01"
                     android:text="Dock bar"
-                    android:textColor="@color/ink"
-                    android:textSize="16sp" />
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="3dp"
                     android:fontFamily="@font/gsf_t540"
-                    android:lineSpacingMultiplier="1.15"
-                    android:text="A glass or solid bar behind the apps in your dock, built into your wallpaper."
-                    android:textColor="@color/ink_2"
+                    android:text="Glass behind your dock apps"
+                    android:textColor="#C7FFFFFF"
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/dock_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:background="@drawable/pill"
-                android:fontFamily="@font/gsf_t620"
-                android:paddingStart="18dp"
-                android:paddingTop="9dp"
-                android:paddingEnd="18dp"
-                android:paddingBottom="9dp"
-                android:text="Open"
-                android:textColor="@color/app_bg"
-                android:textSize="14sp" />
-        </LinearLayout>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ui_glass_circle"
+                android:padding="11dp"
+                android:src="@drawable/ic_chevron" />
 
-        <!-- Usage access -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/ui_mini_dock"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+                    <View android:layout_width="38dp" android:layout_height="38dp" android:layout_gravity="center" android:background="@drawable/ui_app_green" />
+                </FrameLayout>
+                <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+                    <View android:layout_width="38dp" android:layout_height="38dp" android:layout_gravity="center" android:background="@drawable/ui_app_blue" />
+                </FrameLayout>
+                <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+                    <View android:layout_width="38dp" android:layout_height="38dp" android:layout_gravity="center" android:background="@drawable/ui_app_white" />
+                </FrameLayout>
+                <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+                    <View android:layout_width="38dp" android:layout_height="38dp" android:layout_gravity="center" android:background="@drawable/ui_app_yellow" />
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- Widgets -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/panel"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="18dp">
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="12dp"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gsf_t620"
-                    android:text="@string/usage_title"
-                    android:textColor="@color/ink"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/usage_body"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/gsf_t540"
-                    android:lineSpacingMultiplier="1.15"
-                    android:text="@string/usage_off"
-                    android:textColor="@color/ink_2"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                android:fontFamily="@font/gsf_t620"
+                android:text="Widgets"
+                android:textColor="@color/ui_ink"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/usage_btn"
+                android:id="@+id/widget_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:background="@drawable/pill"
-                android:fontFamily="@font/gsf_t620"
-                android:paddingStart="18dp"
-                android:paddingTop="9dp"
-                android:paddingEnd="18dp"
-                android:paddingBottom="9dp"
-                android:text="@string/usage_button"
-                android:textColor="@color/app_bg"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Power saving -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/panel"
-            android:orientation="vertical"
-            android:padding="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gsf_t620"
-                android:text="@string/saver_title"
-                android:textColor="@color/ink"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/saver_body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/gsf_t540"
-                android:lineSpacingMultiplier="1.15"
-                android:text="@string/saver_off"
-                android:textColor="@color/ink_2"
-                android:textIsSelectable="true"
+                android:textColor="@color/ui_faint"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -223,17 +175,216 @@
             android:id="@+id/items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:orientation="vertical" />
 
+        <!-- Setup -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/gsf_t620"
+            android:text="Setup"
+            android:textColor="@color/ui_ink"
+            android:textSize="20sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:background="@drawable/ui_card"
+            android:orientation="vertical">
+
+            <!-- Screen time -->
+            <LinearLayout
+                android:id="@+id/row_usage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ui_icon_circle"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_screen_time"
+                    android:tint="@color/ui_accent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gsf_t620"
+                        android:text="Screen time"
+                        android:textColor="@color/ui_ink"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/usage_body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/gsf_t540"
+                        android:lineSpacingMultiplier="1.1"
+                        android:textColor="@color/ui_faint"
+                        android:textSize="12.5sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/usage_action"
+                    style="@style/UiPill" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/ui_line" />
+
+            <!-- Power saving -->
+            <LinearLayout
+                android:id="@+id/row_saver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ui_icon_circle"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_bolt"
+                    android:tint="@color/ui_accent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gsf_t620"
+                        android:text="Power saving"
+                        android:textColor="@color/ui_ink"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/saver_body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/gsf_t540"
+                        android:lineSpacingMultiplier="1.1"
+                        android:textColor="@color/ui_faint"
+                        android:textSize="12.5sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/saver_action"
+                    style="@style/UiPill" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/saver_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gsf_t540"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingStart="72dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:text="@string/saver_detail"
+                android:textColor="@color/ui_sub"
+                android:textIsSelectable="true"
+                android:textSize="12.5sp"
+                android:visibility="gone" />
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/ui_line" />
+
+            <!-- Battery optimisation -->
+            <LinearLayout
+                android:id="@+id/row_battery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ui_icon_circle"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_battery_fresh"
+                    android:tint="@color/ui_accent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gsf_t620"
+                        android:text="Keep widgets fresh"
+                        android:textColor="@color/ui_ink"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/gsf_t540"
+                        android:lineSpacingMultiplier="1.1"
+                        android:text="Battery → Unrestricted"
+                        android:textColor="@color/ui_faint"
+                        android:textSize="12.5sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/battery_action"
+                    style="@style/UiPill"
+                    android:background="@drawable/ui_pill_neutral"
+                    android:text="Open"
+                    android:textColor="@color/ui_ink" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:fontFamily="@font/gsf_t540"
-            android:lineSpacingMultiplier="1.2"
-            android:text="@string/tip"
-            android:textColor="@color/ink_3"
-            android:textSize="13sp" />
+            android:gravity="center"
+            android:textColor="@color/ui_faint"
+            android:textSize="12sp" />
     </LinearLayout>
 </ScrollView>

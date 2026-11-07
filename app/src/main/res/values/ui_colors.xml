@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The app itself: always dark, every colour from the wallpaper palette. -->
+<resources>
+    <color name="ui_bg">@android:color/system_neutral1_900</color>
+    <color name="ui_icon_bg">@android:color/system_neutral2_800</color>
+    <color name="ui_accent">@android:color/system_accent1_200</color>
+    <color name="ui_on_accent">@android:color/system_accent1_800</color>
+    <color name="ui_ink">#FFF2F2F5</color>
+    <color name="ui_sub">@android:color/system_neutral2_200</color>
+    <color name="ui_faint">@android:color/system_neutral2_400</color>
+    <color name="ui_line">#0FFFFFFF</color>
+    <color name="ui_chip">#14FFFFFF</color>
+    <color name="ui_ok">#FF6DD58C</color>
+    <color name="ui_ok_bg">#296DD58C</color>
+    <color name="ui_ok_fg">#FF8EE4A9</color>
+</resources>

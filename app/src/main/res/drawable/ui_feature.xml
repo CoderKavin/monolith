@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wallpaper-like stage from the palette: deep base, light from the top right, a second hue bottom left. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><shape android:shape="rectangle"><corners android:radius="32dp" /><solid android:color="@android:color/system_accent1_800" /></shape></item>
+    <item><shape android:shape="rectangle"><corners android:radius="32dp" />
+        <gradient android:type="radial" android:centerX="0.9" android:centerY="0" android:gradientRadius="320dp"
+            android:startColor="@android:color/system_accent1_500" android:endColor="#00000000" /></shape></item>
+    <item><shape android:shape="rectangle"><corners android:radius="32dp" />
+        <gradient android:type="radial" android:centerX="0" android:centerY="1" android:gradientRadius="260dp"
+            android:startColor="@android:color/system_accent3_600" android:endColor="#00000000" /></shape></item>
+</layer-list>

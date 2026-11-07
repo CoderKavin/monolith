@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Page background: near-black from the palette with a soft accent glow at the top right. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><color android:color="@color/ui_bg" /></item>
+    <item android:height="520dp" android:gravity="top|fill_horizontal">
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:centerX="0.72" android:centerY="0" android:gradientRadius="400dp"
+                android:startColor="@color/ui_glow" android:endColor="#00000000" />
+        </shape>
+    </item>
+</layer-list>

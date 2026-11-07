@@ -2,6 +2,8 @@ package com.monolith.widgets;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -22,7 +25,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-/** Gallery: live previews rendered from the real widget code, one-tap Add, and the two setup cards. */
+/** Home: update chip, Dock bar, a gallery of live widget previews with one-tap Add, and the setup list. */
 public class MainActivity extends Activity {
 
     private static final String[] NAMES = {
@@ -56,26 +59,53 @@ public class MainActivity extends Activity {
             return insets;
         });
 
-        findViewById(R.id.update_btn).setOnClickListener(v -> onUpdateTapped());
-        findViewById(R.id.dock_btn).setOnClickListener(v -> startActivity(new Intent(this, DockActivity.class)));
+        findViewById(R.id.update_chip).setOnClickListener(v -> onUpdateTapped());
+        findViewById(R.id.dock_card).setOnClickListener(v -> startActivity(new Intent(this, DockActivity.class)));
 
-        findViewById(R.id.usage_btn).setOnClickListener(v -> {
+        View.OnClickListener usage = v -> {
             try {
                 startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
             } catch (RuntimeException e) {
                 startActivity(new Intent(Settings.ACTION_SETTINGS));
             }
+        };
+        findViewById(R.id.row_usage).setOnClickListener(usage);
+        findViewById(R.id.usage_action).setOnClickListener(usage);
+
+        View detail = findViewById(R.id.saver_detail);
+        View.OnClickListener saver = v -> {
+            if (Data.canToggleSaver(this)) return;
+            detail.setVisibility(detail.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        };
+        findViewById(R.id.row_saver).setOnClickListener(saver);
+        findViewById(R.id.saver_action).setOnClickListener(saver);
+        detail.setOnClickListener(v -> {
+            ClipboardManager cm = getSystemService(ClipboardManager.class);
+            cm.setPrimaryClip(ClipData.newPlainText("adb",
+                    "adb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS"));
+            Toast.makeText(this, "Command copied", Toast.LENGTH_SHORT).show();
         });
+
+        View.OnClickListener battery = v -> startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + getPackageName())));
+        findViewById(R.id.row_battery).setOnClickListener(battery);
+        findViewById(R.id.battery_action).setOnClickListener(battery);
+
+        ((TextView) findViewById(R.id.footer)).setText("Monolith " + Updater.installedName(this)
+                + " · Google Sans Flex · Material 3 Expressive");
+        ((TextView) findViewById(R.id.widget_count)).setText(NAMES.length + " · tap + to add");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         boolean usage = Data.usageAllowed(this);
-        ((TextView) findViewById(R.id.usage_body)).setText(usage ? R.string.usage_on : R.string.usage_off);
-        findViewById(R.id.usage_btn).setVisibility(usage ? View.GONE : View.VISIBLE);
-        ((TextView) findViewById(R.id.saver_body)).setText(
-                Data.canToggleSaver(this) ? R.string.saver_on : R.string.saver_off);
+        ((TextView) findViewById(R.id.usage_body)).setText(usage ? "Usage access is on" : "Needs usage access. Nothing leaves your phone.");
+        pill(findViewById(R.id.usage_action), usage ? "On" : "Allow", usage);
+        boolean saver = Data.canToggleSaver(this);
+        ((TextView) findViewById(R.id.saver_body)).setText(saver ? "Tap the Battery widget to switch it" : "One-time grant from a computer");
+        pill(findViewById(R.id.saver_action), saver ? "On" : "Set up", saver);
+        if (saver) findViewById(R.id.saver_detail).setVisibility(View.GONE);
 
         // Widgets on the home screen pick up a newly granted permission straight away.
         Refresh.refreshAll(this);
@@ -90,7 +120,7 @@ public class MainActivity extends Activity {
     private boolean updating;
 
     private void checkForUpdate() {
-        ((TextView) findViewById(R.id.update_body)).setText(R.string.update_checking);
+        chip("Checking…", 0);
         new Thread(() -> {
             long l = Updater.latestVersion();
             runOnUiThread(() -> showUpdateState(l));
@@ -99,19 +129,26 @@ public class MainActivity extends Activity {
 
     private void showUpdateState(long l) {
         latest = l;
-        TextView body = findViewById(R.id.update_body);
-        TextView btn = findViewById(R.id.update_btn);
-        String name = "Version " + Updater.installedName(this);
-        if (l < 0) {
-            body.setText(name + " · couldn't reach GitHub");
-            btn.setText(R.string.update_check);
-        } else if (l > Updater.installedVersion(this)) {
-            body.setText("A newer version is ready to install");
-            btn.setText(R.string.update_now);
-        } else {
-            body.setText(name + " · up to date");
-            btn.setText(R.string.update_check);
-        }
+        String name = Updater.installedName(this);
+        if (l < 0) chip(name + " · Offline, tap to retry", 0);
+        else if (l > Updater.installedVersion(this)) chip("Update to 2." + (l - 100), 2);
+        else chip(name + " · Up to date", 1);
+    }
+
+    /** style: 0 neutral, 1 up to date (green dot), 2 update ready (accent). */
+    private void chip(String text, int style) {
+        TextView c = findViewById(R.id.update_chip);
+        c.setText(text);
+        c.setBackgroundResource(style == 2 ? R.drawable.ui_chip_accent : R.drawable.ui_chip);
+        c.setTextColor(getColor(style == 2 ? R.color.ui_on_accent : R.color.ui_sub));
+        int dot = style == 1 ? R.drawable.ui_dot_ok : style == 2 ? R.drawable.ui_dot_accent : R.drawable.ui_dot_faint;
+        c.setCompoundDrawablesRelativeWithIntrinsicBounds(dot, 0, 0, 0);
+    }
+
+    private void pill(TextView p, String text, boolean ok) {
+        p.setText(text);
+        p.setBackgroundResource(ok ? R.drawable.ui_pill_ok : R.drawable.ui_chip_accent);
+        p.setTextColor(getColor(ok ? R.color.ui_ok_fg : R.color.ui_on_accent));
     }
 
     private void onUpdateTapped() {
@@ -128,7 +165,7 @@ public class MainActivity extends Activity {
             return;
         }
         updating = true;
-        ((TextView) findViewById(R.id.update_body)).setText(R.string.update_working);
+        chip("Downloading…", 2);
         new Thread(() -> {
             try {
                 File apk = Updater.download(this);
@@ -147,8 +184,8 @@ public class MainActivity extends Activity {
 
     private void updateFailed(String why) {
         updating = false;
-        ((TextView) findViewById(R.id.update_body)).setText("Update failed" + (why != null ? ": " + why : ""));
-        ((TextView) findViewById(R.id.update_btn)).setText(R.string.update_check);
+        chip("Update failed, tap to retry", 0);
+        if (why != null) Toast.makeText(this, why, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -168,35 +205,61 @@ public class MainActivity extends Activity {
 
     private void rebuildGallery() {
         items.removeAllViews();
-        int screenDp = (int) (getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density);
-        float wideW = Math.min(380f, screenDp - 80f);
+        float screenDp = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density;
+        float content = screenDp - 32f;              // page padding
+        float wideW = content - 16f - 24f;           // card + stage padding
         float wideH = Math.round(204f * wideW / 380f);
+        float smallCard = (content - 12f) / 2f;
+        float smallW = smallCard - 16f - 24f;
+        float smallH = Math.round(204f * smallW / 184f);
+
+        LinearLayout pair = null;
         for (int kind = 0; kind < NAMES.length; kind++) {
             boolean wide = Render.DEFAULT_W[kind] > 300;
-            float w = wide ? wideW : 184f;
-            float h = wide ? wideH : 204f;
-            add(kind, w, h, wide);
+            View card = card(kind, wide ? wideW : smallW, wide ? wideH : smallH);
+            if (wide) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.bottomMargin = dp(12);
+                items.addView(card, lp);
+                pair = null;
+            } else {
+                if (pair == null || pair.getChildCount() == 2) {
+                    pair = new LinearLayout(this);
+                    pair.setOrientation(LinearLayout.HORIZONTAL);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp.bottomMargin = dp(12);
+                    items.addView(pair, lp);
+                }
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                if (pair.getChildCount() == 1) lp.leftMargin = dp(12);
+                pair.addView(card, lp);
+            }
+        }
+        // An odd 2 × 2 at the end keeps its half width.
+        if (pair != null && pair.getChildCount() == 1) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 1, 1);
+            lp.leftMargin = dp(12);
+            pair.addView(new View(this), lp);
         }
     }
 
-    private void add(int kind, float wDp, float hDp, boolean wide) {
-        View row = getLayoutInflater().inflate(R.layout.item_widget, items, false);
-        ((TextView) row.findViewById(R.id.name)).setText(NAMES[kind]);
-        ((TextView) row.findViewById(R.id.meta)).setText(META[kind]);
+    private View card(int kind, float wDp, float hDp) {
+        View card = getLayoutInflater().inflate(R.layout.item_widget, items, false);
+        ((TextView) card.findViewById(R.id.name)).setText(NAMES[kind]);
+        ((TextView) card.findViewById(R.id.meta)).setText(META[kind]);
 
-        FrameLayout stage = row.findViewById(R.id.stage);
+        FrameLayout stage = card.findViewById(R.id.stage);
         try {
             RemoteViews preview = Render.build(this, kind, wDp, hDp);
             View widget = preview.apply(this, stage);
-            int w = wide ? ViewGroup.LayoutParams.MATCH_PARENT : dp(Math.round(wDp));
-            stage.addView(widget, new FrameLayout.LayoutParams(w, dp(Math.round(hDp)), Gravity.CENTER));
+            stage.addView(widget, new FrameLayout.LayoutParams(dp(Math.round(wDp)), dp(Math.round(hDp)), Gravity.CENTER));
         } catch (RuntimeException e) {
             stage.setMinimumHeight(dp(Math.round(hDp)));
         }
 
         final Class<?> provider = W.ALL[kind];
-        row.findViewById(R.id.add).setOnClickListener(v -> pin(provider));
-        items.addView(row);
+        card.findViewById(R.id.add).setOnClickListener(v -> pin(provider));
+        return card;
     }
 
     private void pin(Class<?> provider) {
