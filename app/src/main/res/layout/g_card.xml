@@ -11,22 +11,12 @@
     android:paddingEnd="22dp"
     android:paddingBottom="18dp">
 
-    <TextClock
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:autoSizeMaxTextSize="104sp"
-        android:autoSizeMinTextSize="36sp"
-        android:autoSizeStepGranularity="2sp"
-        android:autoSizeTextType="uniform"
-        android:fontFamily="@font/gsf_r580"
-        android:format12Hour="h:mm"
-        android:format24Hour="H:mm"
-        android:gravity="start|center_vertical"
-        android:includeFontPadding="false"
-        android:letterSpacing="-0.035"
-        android:maxLines="1"
-        android:textColor="@color/g_on_surface" />
+        android:layout_weight="1">
+        <ImageView android:id="@+id/t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="start|center_vertical" android:tint="@color/g_on_surface" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,16 +32,7 @@
             android:gravity="center"
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
-
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gsf_t540"
-                android:format12Hour="EEEE, d MMMM"
-                android:format24Hour="EEEE, d MMMM"
-                android:maxLines="1"
-                android:textColor="@color/g_on_secondary_c"
-                android:textSize="14sp" />
+            <ImageView android:id="@+id/d" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_secondary_c" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,23 +45,8 @@
             android:orientation="horizontal"
             android:paddingStart="11dp"
             android:paddingEnd="13dp">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_alarm"
-                android:tint="@color/g_on_tertiary_c" />
-
-            <TextView
-                android:id="@+id/alarm_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/gsf_t540"
-                android:maxLines="1"
-                android:text="7:00"
-                android:textColor="@color/g_on_tertiary_c"
-                android:textSize="14sp" />
+            <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_alarm" android:tint="@color/g_on_tertiary_c" />
+            <ImageView android:id="@+id/a" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_tertiary_c" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

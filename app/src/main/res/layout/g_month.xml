@@ -11,15 +11,12 @@
     android:paddingEnd="12dp"
     android:paddingBottom="14dp">
 
-    <TextView
+    <ImageView
         android:id="@+id/mo_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gsf_t620"
-        android:paddingStart="6dp"
-        android:text="November"
-        android:textColor="@color/g_primary"
-        android:textSize="15sp" />
+        android:layout_marginStart="6dp"
+        android:tint="@color/g_primary" />
 
     <FrameLayout
         android:layout_width="match_parent"

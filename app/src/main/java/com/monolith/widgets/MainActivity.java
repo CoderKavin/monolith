@@ -78,6 +78,7 @@ public class MainActivity extends Activity {
 
         // Widgets on the home screen pick up a newly granted permission straight away.
         Refresh.refreshAll(this);
+        Refresh.schedule(this);
         rebuildGallery();
         if (!updating) checkForUpdate();
     }

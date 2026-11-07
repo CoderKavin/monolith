@@ -14,7 +14,7 @@
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
         <ImageView android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/ic_hourglass" android:tint="@color/g_on_surface_var" />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:fontFamily="@font/gsf_t540" android:text="Screen time" android:textColor="@color/g_on_surface_var" android:textSize="14sp" />
+        <ImageView android:id="@+id/ss_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface_var" />
     </LinearLayout>
 
     <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="10dp" android:layout_weight="1">
@@ -22,8 +22,11 @@
         <ImageView android:id="@+id/ss1" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_tertiary" />
         <ImageView android:id="@+id/ss2" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_secondary" />
         <ImageView android:id="@+id/ss3" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_track" />
-        <TextView android:id="@+id/ss_total" android:layout_width="match_parent" android:layout_height="match_parent" android:fontFamily="@font/gsf_r620" android:gravity="center" android:includeFontPadding="false" android:letterSpacing="-0.02" android:maxLines="1" android:text="1h 38m" android:textColor="@color/g_on_surface" android:textSize="28sp" />
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center">
+            <ImageView android:id="@+id/ss_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_surface" />
+            <ImageView android:id="@+id/ss_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_surface_var" />
+        </FrameLayout>
     </FrameLayout>
 
-    <TextView android:id="@+id/ss_delta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:fontFamily="@font/gsf_t540" android:maxLines="1" android:text="18m less than yesterday" android:textColor="@color/g_on_surface_var" android:textSize="12sp" />
+    <ImageView android:id="@+id/ss_delta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:tint="@color/g_on_surface_var" />
 </LinearLayout>

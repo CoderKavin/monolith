@@ -17,21 +17,9 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_hourglass"
-            android:tint="@color/g_on_surface_var" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/gsf_t540"
-            android:text="Screen time"
-            android:textColor="@color/g_on_surface_var"
-            android:textSize="14sp" />
+        <ImageView android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/ic_hourglass" android:tint="@color/g_on_surface_var" />
+        <ImageView android:id="@+id/st_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface_var" />
+        <FrameLayout android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/st_chip"
@@ -42,49 +30,24 @@
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="10dp">
-
-            <ImageView
-                android:id="@+id/st_arrow"
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:src="@drawable/ic_arrow_down"
-                android:tint="@color/g_on_secondary_c" />
-
-            <TextView
-                android:id="@+id/st_delta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/gsf_t540"
-                android:maxLines="1"
-                android:text="18m vs yesterday"
-                android:textColor="@color/g_on_secondary_c"
-                android:textSize="12sp" />
+            <ImageView android:id="@+id/st_arrow" android:layout_width="13dp" android:layout_height="13dp" android:src="@drawable/ic_arrow_down" android:tint="@color/g_on_secondary_c" />
+            <ImageView android:id="@+id/st_delta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:tint="@color/g_on_secondary_c" />
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/st_total"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/gsf_r620"
-        android:includeFontPadding="false"
-        android:letterSpacing="-0.02"
-        android:maxLines="1"
-        android:text="1h 38m"
-        android:textColor="@color/g_on_surface"
-        android:textSize="54sp" />
+        android:layout_marginTop="10dp">
+        <ImageView android:id="@+id/st_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_surface" />
+        <ImageView android:id="@+id/st_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_surface_var" />
+    </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="12dp">
-
         <ImageView android:id="@+id/seg0" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:tint="@color/g_primary" />
         <ImageView android:id="@+id/seg1" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:tint="@color/g_tertiary" />
         <ImageView android:id="@+id/seg2" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:tint="@color/g_secondary" />
@@ -100,20 +63,20 @@
 
         <LinearLayout android:id="@+id/lg0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
             <ImageView android:layout_width="8dp" android:layout_height="8dp" android:src="@drawable/dot" android:tint="@color/g_primary" />
-            <TextView android:id="@+id/lg_n0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:ellipsize="end" android:fontFamily="@font/gsf_t620" android:maxLines="1" android:maxWidth="72dp" android:text="Chat" android:textColor="@color/g_on_surface" android:textSize="12sp" />
-            <TextView android:id="@+id/lg_t0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:fontFamily="@font/gsf_t540" android:maxLines="1" android:text="41m" android:textColor="@color/g_on_surface_var" android:textSize="12sp" />
+            <ImageView android:id="@+id/lg_n0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface" />
+            <ImageView android:id="@+id/lg_t0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:tint="@color/g_on_surface_var" />
         </LinearLayout>
 
         <LinearLayout android:id="@+id/lg1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:gravity="center_vertical" android:orientation="horizontal">
             <ImageView android:layout_width="8dp" android:layout_height="8dp" android:src="@drawable/dot" android:tint="@color/g_tertiary" />
-            <TextView android:id="@+id/lg_n1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:ellipsize="end" android:fontFamily="@font/gsf_t620" android:maxLines="1" android:maxWidth="72dp" android:text="Video" android:textColor="@color/g_on_surface" android:textSize="12sp" />
-            <TextView android:id="@+id/lg_t1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:fontFamily="@font/gsf_t540" android:maxLines="1" android:text="29m" android:textColor="@color/g_on_surface_var" android:textSize="12sp" />
+            <ImageView android:id="@+id/lg_n1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface" />
+            <ImageView android:id="@+id/lg_t1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:tint="@color/g_on_surface_var" />
         </LinearLayout>
 
         <LinearLayout android:id="@+id/lg2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:gravity="center_vertical" android:orientation="horizontal">
             <ImageView android:layout_width="8dp" android:layout_height="8dp" android:src="@drawable/dot" android:tint="@color/g_secondary" />
-            <TextView android:id="@+id/lg_n2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:ellipsize="end" android:fontFamily="@font/gsf_t620" android:maxLines="1" android:maxWidth="72dp" android:text="Browser" android:textColor="@color/g_on_surface" android:textSize="12sp" />
-            <TextView android:id="@+id/lg_t2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:fontFamily="@font/gsf_t540" android:maxLines="1" android:text="16m" android:textColor="@color/g_on_surface_var" android:textSize="12sp" />
+            <ImageView android:id="@+id/lg_n2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface" />
+            <ImageView android:id="@+id/lg_t2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:tint="@color/g_on_surface_var" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

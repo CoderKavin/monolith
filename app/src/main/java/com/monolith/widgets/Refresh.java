@@ -9,9 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
 
-/** Periodic refresh, reboot/update recovery, and the Battery widget's power-saving tap. */
+/**
+ * Redraws every widget at the top of each minute. The clocks are drawn as images (so they can use
+ * Google Sans Flex), which means they need this tick instead of ticking on their own.
+ * The alarm is non-waking: while the screen is off nothing runs, and the first tick after the
+ * screen comes on brings everything up to date.
+ */
 public class Refresh extends BroadcastReceiver {
 
     @Override
@@ -43,6 +47,15 @@ public class Refresh extends BroadcastReceiver {
         }
     }
 
+    static boolean anyWidgets(Context c) {
+        AppWidgetManager m = AppWidgetManager.getInstance(c);
+        for (Class<?> cls : W.ALL) {
+            if (m.getAppWidgetIds(new ComponentName(c, cls)).length > 0) return true;
+        }
+        return false;
+    }
+
+    /** Schedules the next tick for the start of the next minute, or cancels it when no widgets remain. */
     static void schedule(Context c) {
         AlarmManager am = c.getSystemService(AlarmManager.class);
         if (am == null) return;
@@ -50,18 +63,17 @@ public class Refresh extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
-        boolean any = false;
-        AppWidgetManager m = AppWidgetManager.getInstance(c);
-        for (Class<?> cls : W.ALL) {
-            if (m.getAppWidgetIds(new ComponentName(c, cls)).length > 0) { any = true; break; }
-        }
-        if (any) {
-            // Inexact: batched with other wakeups, so the battery cost is negligible.
-            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pi);
-        } else {
+        if (!anyWidgets(c)) {
             am.cancel(pi);
+            return;
+        }
+        long now = System.currentTimeMillis();
+        long next = (now / 60_000L + 1) * 60_000L + 100L;
+        if (am.canScheduleExactAlarms()) {
+            am.setExact(AlarmManager.RTC, next, pi);
+        } else {
+            // Without exact-alarm access the system may batch this; the app asks for access.
+            am.setWindow(AlarmManager.RTC, next, 60_000L, pi);
         }
     }
 }

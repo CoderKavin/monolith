@@ -98,6 +98,17 @@ final class Data {
         return new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date(info.getTriggerTime()));
     }
 
+    /** 2:05 in 12-hour mode, 14:05 in 24-hour mode, following the phone's setting. */
+    static String time(Context c) {
+        String pattern = DateFormat.is24HourFormat(c) ? "H:mm" : "h:mm";
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date());
+    }
+
+    /** Sunday, 8 November */
+    static String longDate() {
+        return new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault()).format(new Date());
+    }
+
     static int isoWeek() {
         Calendar iso = Calendar.getInstance();
         iso.setFirstDayOfWeek(Calendar.MONDAY);
