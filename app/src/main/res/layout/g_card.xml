@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Clock · Card (4×2) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/g_card"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="22dp"
+    android:paddingBottom="18dp">
+
+    <TextClock
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoSizeMaxTextSize="104sp"
+        android:autoSizeMinTextSize="36sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/gsf_r580"
+        android:format12Hour="h:mm"
+        android:format24Hour="H:mm"
+        android:gravity="start|center_vertical"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.035"
+        android:maxLines="1"
+        android:textColor="@color/g_on_surface" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/g_chip_secondary"
+            android:gravity="center"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gsf_t540"
+                android:format12Hour="EEEE, d MMMM"
+                android:format24Hour="EEEE, d MMMM"
+                android:maxLines="1"
+                android:textColor="@color/g_on_secondary_c"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/alarm_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/g_chip_tertiary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="11dp"
+            android:paddingEnd="13dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_alarm"
+                android:tint="@color/g_on_tertiary_c" />
+
+            <TextView
+                android:id="@+id/alarm_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/gsf_t540"
+                android:maxLines="1"
+                android:text="7:00"
+                android:textColor="@color/g_on_tertiary_c"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

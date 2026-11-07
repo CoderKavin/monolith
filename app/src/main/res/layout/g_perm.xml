@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown by both Screen time widgets until Usage access is allowed. Tap opens the setting. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/g_card"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/ic_hourglass" android:tint="@color/g_on_surface_var" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:fontFamily="@font/gsf_t540" android:text="Screen time" android:textColor="@color/g_on_surface_var" android:textSize="14sp" />
+    </LinearLayout>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_t620" android:text="Tap to allow usage access" android:textColor="@color/g_on_surface" android:textSize="17sp" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:fontFamily="@font/gsf_t540" android:text="Counts app time on this phone only" android:textColor="@color/g_on_surface_var" android:textSize="12sp" />
+</LinearLayout>

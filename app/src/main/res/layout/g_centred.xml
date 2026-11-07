@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Clock · Display centred (4×2, no background). Autosize grows the time until it fills the
+     widget's width or height, whichever runs out first, and centres it on both axes. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp">
+
+    <TextClock
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:autoSizeMaxTextSize="300sp"
+        android:autoSizeMinTextSize="40sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/gsf_r580"
+        android:format12Hour="h:mm"
+        android:format24Hour="H:mm"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.04"
+        android:maxLines="1"
+        android:shadowColor="@color/g_wall_shadow"
+        android:shadowDy="2"
+        android:shadowRadius="18"
+        android:textColor="@color/g_on_wall" />
+</FrameLayout>

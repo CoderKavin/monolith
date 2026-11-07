@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark theme roles, same names as values/colors.xml. -->
+<resources>
+    <color name="g_surface">@android:color/system_neutral1_900</color>
+    <color name="g_surface_high">@android:color/system_neutral1_800</color>
+    <color name="g_on_surface">@android:color/system_neutral1_100</color>
+    <color name="g_on_surface_var">@android:color/system_neutral2_200</color>
+
+    <color name="g_primary">@android:color/system_accent1_200</color>
+    <color name="g_on_primary">@android:color/system_accent1_800</color>
+    <color name="g_primary_c">@android:color/system_accent1_700</color>
+    <color name="g_on_primary_c">@android:color/system_accent1_100</color>
+    <color name="g_track_on_pri">@android:color/system_accent1_500</color>
+
+    <color name="g_secondary">@android:color/system_accent2_300</color>
+    <color name="g_secondary_c">@android:color/system_accent2_700</color>
+    <color name="g_on_secondary_c">@android:color/system_accent2_100</color>
+
+    <color name="g_tertiary">@android:color/system_accent3_200</color>
+    <color name="g_tertiary_c">@android:color/system_accent3_700</color>
+    <color name="g_on_tertiary_c">@android:color/system_accent3_100</color>
+    <color name="g_track_on_ter">@android:color/system_accent3_500</color>
+
+    <color name="g_track">@android:color/system_neutral2_700</color>
+    <color name="g_error">#FFF2B8B5</color>
+
+    <color name="g_on_wall">@android:color/system_neutral1_10</color>
+    <color name="g_wall_accent">@android:color/system_accent1_100</color>
+    <color name="g_wall_shadow">#47000000</color>
+
+    <color name="stage">@android:color/system_accent1_800</color>
+</resources>

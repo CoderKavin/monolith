@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.monolith.widgets'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.monolith.widgets'
+        minSdk 31          // Android 12+: rounded widget corners, dynamic colour, responsive layouts
+        targetSdk 35
+        versionCode 2
+        versionName '2.0'
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    // Fixed key so future builds install as updates instead of needing an uninstall.
+    signingConfigs {
+        release {
+            storeFile file('monolith.jks')
+            storePassword 'monolith'
+            keyAlias 'monolith'
+            keyPassword 'monolith'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

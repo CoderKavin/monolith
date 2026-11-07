@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Monolith</string>
+
+    <string name="w_display">Clock · Display</string>
+    <string name="w_centred">Clock · Display centred</string>
+    <string name="w_card">Clock · Card</string>
+    <string name="w_week">Week</string>
+    <string name="w_screen">Screen time</string>
+    <string name="w_month">Month</string>
+    <string name="w_battery">Battery</string>
+    <string name="w_screen_small">Screen time · small</string>
+
+    <string name="d_display">Time and date straight on your wallpaper.</string>
+    <string name="d_centred">Just the time, as large as the space allows.</string>
+    <string name="d_card">Time with date and next-alarm chips.</string>
+    <string name="d_week">This week, today as the filled pill.</string>
+    <string name="d_screen">Today\'s screen time, split by your top apps.</string>
+    <string name="d_month">This month at a glance.</string>
+    <string name="d_battery">Charge, charging, full, low and power saving. Tap to toggle power saving.</string>
+    <string name="d_screen_small">Today\'s screen time as a segmented ring.</string>
+
+    <string name="add">Add</string>
+    <string name="tagline">Material 3 Expressive widgets. Colours follow your wallpaper and light or dark mode.</string>
+    <string name="usage_title">Screen time</string>
+    <string name="usage_off">Needs Usage access to read how long you use each app. Nothing leaves your phone.</string>
+    <string name="usage_on">Usage access is on.</string>
+    <string name="usage_button">Allow</string>
+    <string name="saver_title">Power saving from the Battery widget</string>
+    <string name="saver_off">Android only lets an app switch power saving after a one-time grant from a computer:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nUntil then, tapping the widget opens the power saving screen.</string>
+    <string name="saver_on">Granted. Tapping the Battery widget switches power saving on and off.</string>
+    <string name="tip">Set Settings → Apps → Monolith → Battery → Unrestricted so Battery and Screen time stay current. Clocks keep time on their own.</string>
+</resources>

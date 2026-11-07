@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Week (4×2). Pill backgrounds and text colours are set per day in code. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/g_card"
+    android:orientation="vertical"
+    android:paddingStart="18dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:paddingEnd="2dp">
+
+        <TextView
+            android:id="@+id/wk_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/gsf_t620"
+            android:maxLines="1"
+            android:text="November"
+            android:textColor="@color/g_on_surface"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/wk_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gsf_t540"
+            android:text="Week 45"
+            android:textColor="@color/g_on_surface_var"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout android:id="@+id/p0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="S" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="8" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="M" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="9" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="T" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="10" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="W" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="11" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="T" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="12" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="F" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="13" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/p6" android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/g_pill" android:gravity="center_horizontal" android:orientation="vertical" android:paddingTop="14dp" android:paddingBottom="12dp">
+            <TextView android:id="@+id/l6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:fontFamily="@font/gsf_t540" android:text="S" android:textColor="@color/g_on_surface" android:textSize="12sp" />
+            <FrameLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+            <TextView android:id="@+id/n6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/gsf_r620" android:fontFeatureSettings="tnum" android:includeFontPadding="false" android:text="14" android:textColor="@color/g_on_surface" android:textSize="24sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
