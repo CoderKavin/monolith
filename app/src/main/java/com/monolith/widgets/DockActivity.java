@@ -79,7 +79,7 @@ public class DockActivity extends Activity {
         WallpaperManager wm = WallpaperManager.getInstance(this);
         int now = wm.getWallpaperId(WallpaperManager.FLAG_SYSTEM);
         int ours = getSharedPreferences("dockwall", MODE_PRIVATE).getInt("ourId", Integer.MIN_VALUE);
-        if (source != null && now == ours) return;
+        if (source != null && (now == ours || ourLiveWallpaperOn())) return;
         new Thread(() -> {
             try {
                 android.graphics.drawable.Drawable d = android.os.Build.VERSION.SDK_INT >= 34
@@ -196,7 +196,7 @@ public class DockActivity extends Activity {
         root.addView(slider("Bar height", 52, 120, s.heightDp, v -> s.heightDp = v));
         root.addView(slider("Side margin", 0, 40, s.marginDp, v -> s.marginDp = v));
 
-        TextView apply = pill("Set as home screen wallpaper", true);
+        TextView apply = pill("Set dock bar", true);
         apply.setOnClickListener(v -> apply());
         root.addView(apply, margins(0, 26));
 
@@ -384,23 +384,43 @@ public class DockActivity extends Activity {
         }).start();
     }
 
+    private boolean ourLiveWallpaperOn() {
+        android.app.WallpaperInfo info = WallpaperManager.getInstance(this).getWallpaperInfo();
+        return info != null && getPackageName().equals(info.getPackageName());
+    }
+
     private void apply() {
         if (source == null) {
             Toast.makeText(this, "Choose your wallpaper photo first", Toast.LENGTH_SHORT).show();
             return;
         }
         s.save(this);
-        status.setText("Setting wallpaper…");
+        status.setText("Preparing…");
         new Thread(() -> {
             try {
                 Bitmap full = DockWall.compose(this, source, screenW, screenH, s, density);
-                WallpaperManager wm = WallpaperManager.getInstance(this);
-                int id = wm.setBitmap(full, null, true, WallpaperManager.FLAG_SYSTEM);
-                // Remember which wallpaper is ours, so next time we start from the clean original.
-                getSharedPreferences("dockwall", MODE_PRIVATE).edit().putInt("ourId", id).apply();
-                runOnUiThread(() -> status.setText("Done. Go home and check the bar sits behind your dock icons; adjust Height from bottom if it doesn't, then set it again."));
+                try (FileOutputStream os = new FileOutputStream(DockWallpaper.file(this))) {
+                    full.compress(Bitmap.CompressFormat.PNG, 100, os);
+                }
+                runOnUiThread(() -> {
+                    if (ourLiveWallpaperOn()) {
+                        DockWallpaper.changed();
+                        status.setText("Updated. Your dock bar is set and stays still when apps open and close.");
+                    } else {
+                        // Android asks you to confirm a live wallpaper; choose Home screen.
+                        Intent i = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
+                                .putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                                        new android.content.ComponentName(this, DockWallpaper.class));
+                        try {
+                            startActivity(i);
+                            status.setText("Tap Set wallpaper and choose Home screen. The bar won't move when apps open and close.");
+                        } catch (RuntimeException e) {
+                            status.setText("Couldn't open the wallpaper picker: " + e.getMessage());
+                        }
+                    }
+                });
             } catch (IOException | RuntimeException e) {
-                runOnUiThread(() -> status.setText("Couldn't set the wallpaper: " + e.getMessage()));
+                runOnUiThread(() -> status.setText("Couldn't prepare the wallpaper: " + e.getMessage()));
             }
         }).start();
     }

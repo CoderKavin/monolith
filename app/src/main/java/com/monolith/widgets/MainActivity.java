@@ -39,8 +39,8 @@ public class MainActivity extends Activity {
             "4 × 2 · today as the filled pill",
             "4 × 2 · today, split by your top apps",
             "2 × 2 · opens calendar",
-            "2 × 2 · charging, full, low, power saving",
-            "2 × 2 · segmented ring by app"
+            "2 × 2 · every charge state",
+            "2 × 2 · ring by app"
     };
 
     private LinearLayout items;
@@ -207,16 +207,13 @@ public class MainActivity extends Activity {
         items.removeAllViews();
         float screenDp = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density;
         float content = screenDp - 32f;              // page padding
-        float wideW = content - 16f - 24f;           // card + stage padding
-        float wideH = Math.round(204f * wideW / 380f);
-        float smallCard = (content - 12f) / 2f;
-        float smallW = smallCard - 16f - 24f;
-        float smallH = Math.round(204f * smallW / 184f);
+        float wideStage = content - 16f - 24f;       // card padding + stage padding
+        float smallStage = (content - 12f) / 2f - 16f - 24f;
 
         LinearLayout pair = null;
         for (int kind = 0; kind < NAMES.length; kind++) {
             boolean wide = Render.DEFAULT_W[kind] > 300;
-            View card = card(kind, wide ? wideW : smallW, wide ? wideH : smallH);
+            View card = card(kind, wide ? wideStage : smallStage);
             if (wide) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 lp.bottomMargin = dp(12);
@@ -243,19 +240,31 @@ public class MainActivity extends Activity {
         }
     }
 
-    private View card(int kind, float wDp, float hDp) {
+    /**
+     * The widget is built at its real home-screen size (4 × 2 = 380 × 204 dp, 2 × 2 = 184 × 204 dp)
+     * and the finished preview is scaled down as one picture, so it looks exactly like the widget.
+     */
+    private View card(int kind, float stageDp) {
         View card = getLayoutInflater().inflate(R.layout.item_widget, items, false);
         ((TextView) card.findViewById(R.id.name)).setText(NAMES[kind]);
         ((TextView) card.findViewById(R.id.meta)).setText(META[kind]);
 
+        float wDp = Render.DEFAULT_W[kind], hDp = Render.DEFAULT_H;
+        float scale = Math.min(1f, stageDp / wDp);
         FrameLayout stage = card.findViewById(R.id.stage);
+        FrameLayout box = new FrameLayout(this);
         try {
             RemoteViews preview = Render.build(this, kind, wDp, hDp);
-            View widget = preview.apply(this, stage);
-            stage.addView(widget, new FrameLayout.LayoutParams(dp(Math.round(wDp)), dp(Math.round(hDp)), Gravity.CENTER));
+            View widget = preview.apply(this, box);
+            widget.setPivotX(0f);
+            widget.setPivotY(0f);
+            widget.setScaleX(scale);
+            widget.setScaleY(scale);
+            box.addView(widget, new FrameLayout.LayoutParams(dp(Math.round(wDp)), dp(Math.round(hDp))));
         } catch (RuntimeException e) {
-            stage.setMinimumHeight(dp(Math.round(hDp)));
+            // leave the stage empty rather than crash the gallery
         }
+        stage.addView(box, new FrameLayout.LayoutParams(Math.round(dp(1) * wDp * scale), Math.round(dp(1) * hDp * scale), Gravity.CENTER));
 
         final Class<?> provider = W.ALL[kind];
         card.findViewById(R.id.add).setOnClickListener(v -> pin(provider));

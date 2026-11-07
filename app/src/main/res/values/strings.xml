@@ -36,4 +36,6 @@
     <string name="saver_on">Granted. Tapping the Battery widget switches power saving on and off.</string>
     <string name="tip">Set Settings → Apps → Monolith → Battery → Unrestricted so Battery and Screen time stay current. Clocks keep time on their own.</string>
     <string name="saver_detail">Android only lets an app switch power saving after a one-time grant from a computer. Connect your phone with USB debugging on and run:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nTap here to copy it. Until then, the Battery widget opens the power saving screen.</string>
+    <string name="dock_wallpaper">Monolith dock</string>
+    <string name="dock_wallpaper_desc">Your wallpaper with the Monolith dock bar, held perfectly still.</string>
 </resources>

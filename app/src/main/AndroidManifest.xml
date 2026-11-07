@@ -57,6 +57,15 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".DockWallpaper"
+            android:exported="true"
+            android:label="@string/dock_wallpaper"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter><action android:name="android.service.wallpaper.WallpaperService" /></intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/dock_wallpaper" />
+        </service>
+
         <activity
             android:name=".DockActivity"
             android:exported="false"
