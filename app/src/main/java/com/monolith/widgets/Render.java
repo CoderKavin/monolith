@@ -31,7 +31,8 @@ final class Render {
     static final String ACTION_TOGGLE_SAVER = "com.monolith.widgets.TOGGLE_SAVER";
 
     // Fonts: rounded numerals and plain text weights of Google Sans Flex.
-    private static final int R580 = R.font.gsf_r580, R620 = R.font.gsf_r620, T540 = R.font.gsf_t540, T620 = R.font.gsf_t620;
+    private static final int R580 = R.font.gsf_r580, R620 = R.font.gsf_r620, R700 = R.font.gsf_r700,
+            T540 = R.font.gsf_t540, T620 = R.font.gsf_t620;
 
     static RemoteViews build(Context c, int kind, float wDp, float hDp) {
         switch (kind) {
@@ -49,8 +50,8 @@ final class Render {
 
     // ------------------------------------------------------------------ clocks
 
-    /** Shadow geometry for text sitting straight on the wallpaper (matches the layouts' margins). */
-    private static final float SHADOW_PAD_DP = 12f, SHADOW_BLUR_DP = 9f, SHADOW_DY_DP = 2f;
+    /** Margin around wallpaper text, cancelled by the layouts' negative margins. */
+    private static final float SHADOW_PAD_DP = 12f;
 
     private static RemoteViews display(Context c, float wDp, float hDp) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.g_display);
@@ -58,8 +59,8 @@ final class Render {
         float availW = Txt.dp(c, wDp - 12f);
         float availH = Txt.dp(c, hDp - 18f - 24f - 20f);
         float px = Txt.fit(c, time, R580, -0.04f, availW, availH, Txt.sp(c, 136f));
-        onWallpaper(c, v, R.id.t, R.id.t_sh, time, R580, px, -0.04f);
-        onWallpaper(c, v, R.id.d, R.id.d_sh, Data.longDate(), T540, Txt.sp(c, 18f), 0f);
+        onWallpaper(c, v, R.id.t, time, R580, px, -0.04f);
+        onWallpaper(c, v, R.id.d, Data.longDate(), T540, Txt.sp(c, 18f), 0f);
         v.setOnClickPendingIntent(android.R.id.background, openAlarms(c));
         return v;
     }
@@ -70,18 +71,17 @@ final class Render {
         float pad = Txt.dp(c, SHADOW_PAD_DP);
         float availW = Txt.dp(c, wDp - 8f) - 2 * pad;
         float availH = Txt.dp(c, hDp - 8f) - 2 * pad;
-        float px = Txt.fit(c, time, R580, -0.04f, availW, availH, Txt.sp(c, 400f));
-        onWallpaper(c, v, R.id.t, R.id.t_sh, time, R580, px, -0.04f);
+        float px = Txt.fit(c, time, R700, -0.04f, availW, availH, Txt.sp(c, 400f));
+        onWallpaper(c, v, R.id.t, time, R700, px, -0.04f);
         v.setOnClickPendingIntent(android.R.id.background, openAlarms(c));
         return v;
     }
 
-    private static void onWallpaper(Context c, RemoteViews v, int textId, int shadowId,
+    /** Text straight on the wallpaper, no shadow. The 12dp margin around the ink matches the layouts. */
+    private static void onWallpaper(Context c, RemoteViews v, int textId,
                                     String s, int font, float px, float letterSpacing) {
-        Bitmap[] b = Txt.display(c, s, font, px, letterSpacing,
-                Txt.dp(c, SHADOW_PAD_DP), Txt.dp(c, SHADOW_BLUR_DP), Txt.dp(c, SHADOW_DY_DP));
+        Bitmap[] b = Txt.display(c, s, font, px, letterSpacing, Txt.dp(c, SHADOW_PAD_DP), 0f, 0f);
         v.setImageViewBitmap(textId, b[0]);
-        v.setImageViewBitmap(shadowId, b[1]);
     }
 
     private static RemoteViews card(Context c, float wDp, float hDp) {

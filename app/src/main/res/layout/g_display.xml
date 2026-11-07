@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="-12dp"
         android:layout_marginTop="-12dp">
-        <ImageView android:id="@+id/t_sh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_wall_shadow" />
         <ImageView android:id="@+id/t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_wall" />
     </FrameLayout>
 
@@ -27,7 +26,6 @@
         android:layout_marginStart="-6dp"
         android:layout_marginTop="-4dp"
         android:layout_marginBottom="-12dp">
-        <ImageView android:id="@+id/d_sh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_wall_shadow" />
         <ImageView android:id="@+id/d" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_wall_accent" />
     </FrameLayout>
 </LinearLayout>
