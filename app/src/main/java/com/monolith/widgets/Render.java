@@ -170,6 +170,14 @@ final class Render {
         Bitmap[] ring = Gfx.wavyRing(Math.round(Txt.dp(c, side)), b.level / 100f);
         v.setImageViewBitmap(R.id.b_track, ring[0]);
         v.setImageViewBitmap(R.id.b_act, ring[1]);
+        if (layout == R.layout.g_battery_charge) {
+            if (b.state == Data.B_CHARGING) {
+                v.setViewLayoutWidth(R.id.b_orbit, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
+                v.setViewLayoutHeight(R.id.b_orbit, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
+            } else {
+                v.setViewVisibility(R.id.b_orbit, View.GONE);
+            }
+        }
 
         Bitmap[] level = Txt.twoTone(c, b.level + "%", R620, 44f, 0.4f, -0.02f);
         v.setImageViewBitmap(R.id.b_num, level[0]);
