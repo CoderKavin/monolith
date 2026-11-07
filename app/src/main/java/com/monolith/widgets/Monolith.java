@@ -17,12 +17,6 @@ public class Monolith extends Application {
     private static int lastState = -1;
 
     @Override
-    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Dark mode or wallpaper colours changed: the dock is drawn in-app, so redraw it.
-        Refresh.refreshKind(this, Render.DOCK);
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();

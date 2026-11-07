@@ -33,9 +33,9 @@ public abstract class Base extends AppWidgetProvider {
         float w = o != null ? o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0) : 0;
         float h = o != null ? o.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 0) : 0;
         if (w <= 0) w = Render.DEFAULT_W[kind];
-        if (h <= 0) h = kind == Render.DOCK ? 96 : Render.DEFAULT_H;
+        if (h <= 0) h = Render.DEFAULT_H;
         try {
-            m.updateAppWidget(id, kind == Render.DOCK ? Dock.build(c, id, w, h) : Render.build(c, kind, w, h));
+            m.updateAppWidget(id, Render.build(c, kind, w, h));
         } catch (RuntimeException e) {
             Log.w("Monolith", "Widget " + kind + " failed to render", e);
         }

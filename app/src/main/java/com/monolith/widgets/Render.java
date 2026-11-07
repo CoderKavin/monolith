@@ -21,10 +21,10 @@ final class Render {
 
     private Render() {}
 
-    static final int DISPLAY = 0, CENTRED = 1, CARD = 2, WEEK = 3, SCREEN = 4, MONTH = 5, BATTERY = 6, SCREEN_SMALL = 7, DOCK = 8;
+    static final int DISPLAY = 0, CENTRED = 1, CARD = 2, WEEK = 3, SCREEN = 4, MONTH = 5, BATTERY = 6, SCREEN_SMALL = 7;
 
     /** Design sizes: 4 × 2 is 380 × 204 dp, tall 2 × 2 is 184 × 204 dp. */
-    static final float[] DEFAULT_W = {380, 380, 380, 380, 380, 184, 184, 184, 380};
+    static final float[] DEFAULT_W = {380, 380, 380, 380, 380, 184, 184, 184};
     static final float DEFAULT_H = 204;
 
     static final String ACTION_REFRESH = "com.monolith.widgets.REFRESH";
@@ -44,7 +44,6 @@ final class Render {
             case MONTH: return month(c, wDp, hDp);
             case BATTERY: return battery(c, wDp, hDp);
             case SCREEN_SMALL: return screenSmall(c, wDp, hDp);
-            case DOCK: return Dock.render(c, null, -1, wDp, hDp);
             default: throw new IllegalArgumentException("kind " + kind);
         }
     }
