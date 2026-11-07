@@ -31,8 +31,13 @@ final class Updater {
     static final String ACTION_INSTALL_STATUS = "com.monolith.widgets.INSTALL_STATUS";
 
     static long installedVersion(Context c) {
+        return installedVersion(c, c.getPackageName());
+    }
+
+    /** Version code of any package, or 0 if it isn't installed. */
+    static long installedVersion(Context c, String pkg) {
         try {
-            PackageInfo info = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
+            PackageInfo info = c.getPackageManager().getPackageInfo(pkg, 0);
             return info.getLongVersionCode();
         } catch (PackageManager.NameNotFoundException e) {
             return 0;
@@ -64,10 +69,15 @@ final class Updater {
         }
     }
 
-    /** Downloads the APK to the app's cache. */
+    /** Downloads the app's own APK to the cache. */
     static File download(Context c) throws IOException {
-        File out = new File(c.getCacheDir(), "update.apk");
-        HttpURLConnection conn = open(BASE + "Monolith.apk");
+        return download(c, "Monolith.apk");
+    }
+
+    /** Downloads any APK published with the latest build (the app or an icon pack). */
+    static File download(Context c, String asset) throws IOException {
+        File out = new File(c.getCacheDir(), asset);
+        HttpURLConnection conn = open(BASE + asset);
         try {
             if (conn.getResponseCode() != 200) throw new IOException("HTTP " + conn.getResponseCode());
             try (InputStream in = conn.getInputStream(); OutputStream os = new FileOutputStream(out)) {
@@ -83,10 +93,14 @@ final class Updater {
 
     /** Hands the APK to Android's installer; the result comes back to the activity as a new intent. */
     static void install(Activity a, File apk) throws IOException {
+        install(a, apk, a.getPackageName());
+    }
+
+    static void install(Activity a, File apk, String pkg) throws IOException {
         PackageInstaller installer = a.getPackageManager().getPackageInstaller();
         PackageInstaller.SessionParams params =
                 new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
-        params.setAppPackageName(a.getPackageName());
+        params.setAppPackageName(pkg);
         int id = installer.createSession(params);
         try (PackageInstaller.Session session = installer.openSession(id)) {
             try (InputStream in = new FileInputStream(apk);

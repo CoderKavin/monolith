@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Voice Recorder). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#FFE3DD"/>
+  <group android:translateX="5.85" android:translateY="6">
+      <path android:pathData="M3.13,9.5h0a1.2,1.2 0 0 1 1.2,1.2v2.6a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-2.6a1.2,1.2 0 0 1 1.2,-1.2zM6.68,6.75h0a1.2,1.2 0 0 1 1.2,1.2v8.1a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-8.1a1.2,1.2 0 0 1 1.2,-1.2zM10.23,3.5h0a1.2,1.2 0 0 1 1.2,1.2v14.6a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-14.6a1.2,1.2 0 0 1 1.2,-1.2zM13.78,2h0a1.2,1.2 0 0 1 1.2,1.2v17.6a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-17.6a1.2,1.2 0 0 1 1.2,-1.2zM17.33,5.5h0a1.2,1.2 0 0 1 1.2,1.2v10.6a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-10.6a1.2,1.2 0 0 1 1.2,-1.2zM20.88,8.25h0a1.2,1.2 0 0 1 1.2,1.2v5.1a1.2,1.2 0 0 1 -1.2,1.2h0a1.2,1.2 0 0 1 -1.2,-1.2v-5.1a1.2,1.2 0 0 1 1.2,-1.2z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12.005" android:startY="2" android:endX="12.005" android:endY="22" android:startColor="#FF7D6E" android:endColor="#DE443B"/></aapt:attr>
+      </path>
+  </group>
+</vector>

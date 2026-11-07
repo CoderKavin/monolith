@@ -35,4 +35,9 @@
     <string name="saver_off">Android only lets an app switch power saving after a one-time grant from a computer:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nUntil then, tapping the widget opens the power saving screen.</string>
     <string name="saver_on">Granted. Tapping the Battery widget switches power saving on and off.</string>
     <string name="tip">Set Settings → Apps → Monolith → Battery → Unrestricted so Battery and Screen time stay current. Clocks keep time on their own.</string>
+    <string name="packs_title">Icon packs</string>
+    <string name="packs_body">Pixel-style icons for Samsung\'s own apps. Install one or both, then open Theme Park → Icon → Icon pack and pick Monolith Colour or Monolith Themed. Themed takes its tint from your wallpaper when you import it; re-import after changing wallpaper.</string>
+    <string name="pack_colour">Colour</string>
+    <string name="pack_themed">Themed</string>
+    <string name="theme_park">Open Theme Park</string>
 </resources>

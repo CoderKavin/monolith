@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Health). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#FFE3DD"/>
+  <group android:translateX="6" android:translateY="5.6">
+      <path android:pathData="M12 21s-9-5.3-9-11.6A5 5 0 0 1 12 6.4a5 5 0 0 1 9 3c0 6.3-9 11.6-9 11.6z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="4.4" android:endX="12" android:endY="21" android:startColor="#FF7D6E" android:endColor="#DE443B"/></aapt:attr>
+      </path>
+      <path android:pathData="M5.2 12.4h3.1l1.7-3 2.6 5.6 1.8-3.4h4.4" android:fillType="evenOdd" android:strokeColor="#FFFFFF" android:strokeWidth="1.8" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+  </group>
+</vector>

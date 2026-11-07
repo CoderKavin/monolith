@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (My Files). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#FFF0C7"/>
+  <group android:translateX="5.9" android:translateY="5.15">
+      <path android:pathData="M2.5 6.4a2 2 0 0 1 2-2h5l2.2 2.2h8.3a2 2 0 0 1 2 2V10h-19.5z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12.25" android:startY="4.4" android:endX="12.25" android:endY="10" android:startColor="#F7B02E" android:endColor="#E58E00"/></aapt:attr>
+      </path>
+      <path android:pathData="M5.1,8.6h13.8a2.6,2.6 0 0 1 2.6,2.6v7.2a2.6,2.6 0 0 1 -2.6,2.6h-13.8a2.6,2.6 0 0 1 -2.6,-2.6v-7.2a2.6,2.6 0 0 1 2.6,-2.6z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="8.6" android:endX="12" android:endY="21" android:startColor="#FFD65E" android:endColor="#F6A71B"/></aapt:attr>
+      </path>
+  </group>
+</vector>

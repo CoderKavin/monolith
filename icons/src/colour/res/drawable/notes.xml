@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Notes). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd">
+      <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="18" android:startY="0" android:endX="18" android:endY="36" android:startColor="#FFD862" android:endColor="#F5A41A"/></aapt:attr>
+    </path>
+  <group android:translateX="6" android:translateY="6.2">
+      <path android:pathData="M5.5 2.6h9l5 5v12.4a1.5 1.5 0 0 1-1.5 1.5h-12.5A1.5 1.5 0 0 1 4 20V4.1a1.5 1.5 0 0 1 1.5-1.5z" android:fillType="evenOdd" android:fillColor="#FFFFFF"/>
+      <path android:pathData="M14.5 2.6v4a1 1 0 0 0 1 1h4" android:fillType="evenOdd" android:strokeColor="#F5AE2A" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+      <path android:pathData="M7.6 12h8.8 M7.6 15.5h8.8 M7.6 19h5.4" android:fillType="evenOdd" android:strokeColor="#F5AE2A" android:strokeWidth="1.9" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+  </group>
+</vector>

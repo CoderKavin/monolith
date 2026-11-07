@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Contacts). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#E2EBFF"/>
+  <group android:translateX="6" android:translateY="5.45">
+      <path android:pathData="M3.6 21a8.4 8.4 0 0 1 16.8 0z" android:fillType="evenOdd" android:fillAlpha="0.5">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="12.6" android:endX="12" android:endY="21" android:startColor="#5E9AF8" android:endColor="#2C6BE6"/></aapt:attr>
+      </path>
+      <path android:pathData="M7.2,8.1a4.8,4.8 0 1 0 9.6,0a4.8,4.8 0 1 0 -9.6,0z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="3.3" android:endX="12" android:endY="12.902" android:startColor="#5E9AF8" android:endColor="#2C6BE6"/></aapt:attr>
+      </path>
+  </group>
+</vector>

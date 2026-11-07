@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Music). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd">
+      <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="18" android:startY="0" android:endX="18" android:endY="36" android:startColor="#BDA3FB" android:endColor="#7652E2"/></aapt:attr>
+    </path>
+  <group android:translateX="5.85" android:translateY="5.55">
+      <path android:pathData="M8.5 6.2L19.5 3.8v11.4a3.2 3.2 0 1 1-2.2-3V8.2l-6.6 1.5v8.1a3.2 3.2 0 1 1-2.2-3z" android:fillType="evenOdd" android:fillColor="#FFFFFF"/>
+  </group>
+</vector>

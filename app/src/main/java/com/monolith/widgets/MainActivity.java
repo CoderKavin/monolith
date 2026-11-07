@@ -57,6 +57,9 @@ public class MainActivity extends Activity {
         });
 
         findViewById(R.id.update_btn).setOnClickListener(v -> onUpdateTapped());
+        findViewById(R.id.pack_colour_btn).setOnClickListener(v -> onPackTapped(0));
+        findViewById(R.id.pack_themed_btn).setOnClickListener(v -> onPackTapped(1));
+        findViewById(R.id.theme_park_btn).setOnClickListener(v -> openThemePark());
 
         findViewById(R.id.usage_btn).setOnClickListener(v -> {
             try {
@@ -98,6 +101,7 @@ public class MainActivity extends Activity {
 
     private void showUpdateState(long l) {
         latest = l;
+        showPacks();
         TextView body = findViewById(R.id.update_body);
         TextView btn = findViewById(R.id.update_btn);
         String name = "Version " + Updater.installedName(this);
@@ -142,6 +146,81 @@ public class MainActivity extends Activity {
                 runOnUiThread(() -> updateFailed(e.getMessage()));
             }
         }).start();
+    }
+
+    // ------------------------------------------------------------------ icon packs
+
+    private static final String[] PACK_PKG = {"com.monolith.icons.colour", "com.monolith.icons.themed"};
+    private static final String[] PACK_APK = {"MonolithIconsColour.apk", "MonolithIconsThemed.apk"};
+    private static final int[] PACK_STATUS = {R.id.pack_colour_status, R.id.pack_themed_status};
+    private static final int[] PACK_BTN = {R.id.pack_colour_btn, R.id.pack_themed_btn};
+    private final boolean[] packBusy = new boolean[2];
+
+    private void showPacks() {
+        for (int i = 0; i < 2; i++) {
+            if (packBusy[i]) continue;
+            long have = Updater.installedVersion(this, PACK_PKG[i]);
+            TextView status = findViewById(PACK_STATUS[i]);
+            TextView btn = findViewById(PACK_BTN[i]);
+            if (have == 0) {
+                status.setText("Not installed");
+                btn.setText("Install");
+            } else if (latest > have) {
+                status.setText("New icons available");
+                btn.setText("Update");
+            } else {
+                status.setText("Installed");
+                btn.setText("Reinstall");
+            }
+        }
+    }
+
+    private void onPackTapped(int i) {
+        if (packBusy[i]) return;
+        if (!getPackageManager().canRequestPackageInstalls()) {
+            Toast.makeText(this, "Allow Monolith to install apps, then tap again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Uri.parse("package:" + getPackageName())));
+            return;
+        }
+        packBusy[i] = true;
+        ((TextView) findViewById(PACK_STATUS[i])).setText("Downloading…");
+        new Thread(() -> {
+            try {
+                File apk = Updater.download(this, PACK_APK[i]);
+                runOnUiThread(() -> {
+                    try {
+                        Updater.install(this, apk, PACK_PKG[i]);
+                    } catch (IOException e) {
+                        packFailed(i, e.getMessage());
+                    }
+                    packBusy[i] = false;
+                });
+            } catch (IOException e) {
+                runOnUiThread(() -> packFailed(i, e.getMessage()));
+            }
+        }).start();
+    }
+
+    private void packFailed(int i, String why) {
+        packBusy[i] = false;
+        ((TextView) findViewById(PACK_STATUS[i])).setText("Failed" + (why != null ? ": " + why : ""));
+    }
+
+    /** Theme Park (Good Lock) is where One UI applies icon packs. */
+    private void openThemePark() {
+        Intent open = getPackageManager().getLaunchIntentForPackage("com.samsung.android.themedesigner");
+        if (open != null) {
+            startActivity(open);
+            return;
+        }
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("samsungapps://ProductDetail/com.samsung.android.themedesigner")));
+        } catch (RuntimeException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://galaxystore.samsung.com/detail/com.samsung.android.themedesigner")));
+        }
     }
 
     private void updateFailed(String why) {

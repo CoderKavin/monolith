@@ -26,13 +26,18 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/release/app-release.apk Monolith.apk
+          cp icons/build/outputs/apk/colour/release/icons-colour-release.apk MonolithIconsColour.apk
+          cp icons/build/outputs/apk/themed/release/icons-themed-release.apk MonolithIconsThemed.apk
           # The app compares this number with its own version to offer updates.
           echo $(( GITHUB_RUN_NUMBER + 100 )) > version.txt
 
       - uses: actions/upload-artifact@v4
         with:
           name: Monolith-apk
-          path: Monolith.apk
+          path: |
+            Monolith.apk
+            MonolithIconsColour.apk
+            MonolithIconsThemed.apk
 
       # A fixed "latest" release so the phone download link never changes.
       - name: Publish to Releases
@@ -40,7 +45,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest Monolith.apk version.txt \
+          gh release create latest Monolith.apk MonolithIconsColour.apk MonolithIconsThemed.apk version.txt \
             --title "Monolith (latest build)" \
             --notes "Open this page on your phone and tap Monolith.apk to install." \
             --target "${GITHUB_SHA}"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from the Monolith icon design (Weather). Do not edit by hand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="@color/th_bg"/>
+  <group android:translateX="4.9" android:translateY="5.4">
+      <path android:pathData="M2.5,9.2a6.9,6.9 0 1 0 13.8,0a6.9,6.9 0 1 0 -13.8,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg" android:fillAlpha="0.55"/>
+      <path android:pathData="M4.4,9.2a5,5 0 1 0 10,0a5,5 0 1 0 -10,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg"/>
+      <path android:pathData="M9.6 21h9.2a3.8 3.8 0 0 0 .5-7.6 5.6 5.6 0 0 0-10.6 1.7 3 3 0 0 0 .9 5.9z" android:fillType="evenOdd" android:strokeColor="@color/th_bg" android:strokeWidth="2.6" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+      <path android:pathData="M9.6 21h9.2a3.8 3.8 0 0 0 .5-7.6 5.6 5.6 0 0 0-10.6 1.7 3 3 0 0 0 .9 5.9z" android:fillType="evenOdd" android:fillColor="@color/th_fg"/>
+  </group>
+</vector>

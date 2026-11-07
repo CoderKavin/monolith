@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Taken from the wallpaper palette when Theme Park imports the pack. -->
+<resources>
+    <color name="th_bg">@android:color/system_accent2_50</color>
+    <color name="th_fg">@android:color/system_accent1_700</color>
+</resources>

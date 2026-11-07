@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Two icon packs from one set of drawings: Colour (full-colour tiles) and Themed (wallpaper tint).
+android {
+    namespace 'com.monolith.icons'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 31
+        targetSdk 35
+        def run = System.getenv('GITHUB_RUN_NUMBER')
+        versionCode run ? run.toInteger() + 100 : 2
+        versionName run ? "2.${run}" : '2.0-local'
+    }
+
+    flavorDimensions 'style'
+    productFlavors {
+        colour {
+            dimension 'style'
+            applicationId 'com.monolith.icons.colour'
+            resValue 'string', 'pack_name', 'Monolith Colour'
+        }
+        themed {
+            dimension 'style'
+            applicationId 'com.monolith.icons.themed'
+            resValue 'string', 'pack_name', 'Monolith Themed'
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../app/monolith.jks')
+            storePassword 'monolith'
+            keyAlias 'monolith'
+            keyPassword 'monolith'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
