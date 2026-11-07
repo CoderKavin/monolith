@@ -17,7 +17,6 @@ public class Monolith extends Application {
     private static int lastState = -1;
 
     @Override
-    @Override
     public void onCreate() {
         super.onCreate();
         IntentFilter f = new IntentFilter();
