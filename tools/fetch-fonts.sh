@@ -20,6 +20,7 @@ fetch() {
 }
 
 # Rounded numerals (ROND 100) for times and values
+fetch gsf_r540 "Google+Sans+Flex:wght,ROND@540,100"
 fetch gsf_r580 "Google+Sans+Flex:wght,ROND@580,100"
 fetch gsf_r620 "Google+Sans+Flex:wght,ROND@620,100"
 fetch gsf_r700 "Google+Sans+Flex:wght,ROND@700,100"

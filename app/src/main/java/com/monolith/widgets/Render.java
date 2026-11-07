@@ -31,7 +31,7 @@ final class Render {
     static final String ACTION_TOGGLE_SAVER = "com.monolith.widgets.TOGGLE_SAVER";
 
     // Fonts: rounded numerals and plain text weights of Google Sans Flex.
-    private static final int R580 = R.font.gsf_r580, R620 = R.font.gsf_r620, R700 = R.font.gsf_r700,
+    private static final int R540 = R.font.gsf_r540, R580 = R.font.gsf_r580, R620 = R.font.gsf_r620, R700 = R.font.gsf_r700,
             T540 = R.font.gsf_t540, T620 = R.font.gsf_t620;
 
     static RemoteViews build(Context c, int kind, float wDp, float hDp) {
@@ -166,7 +166,7 @@ final class Render {
         }
         RemoteViews v = new RemoteViews(c.getPackageName(), layout);
         if (icon != 0) v.setImageViewResource(R.id.b_icon, icon);
-        v.setImageViewBitmap(R.id.b_label, Txt.label(c, label, T540, 14f, 0f));
+        v.setImageViewBitmap(R.id.b_label, Txt.label(c, label, R540, 14f, 0f));
 
         float side = Math.max(48f, Math.min(wDp - 32f, hDp - 32f - 20f - 10f));
         Bitmap[] ring = Gfx.wavyRing(Math.round(Txt.dp(c, side)), b.level / 100f);
