@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
 
     private static final String[] NAMES = {
             "Clock · Display", "Clock · Display centred", "Clock · Card", "Week",
-            "Screen time", "Month", "Battery", "Screen time · small"
+            "Screen time", "Month", "Battery", "Screen time · small", "Dock bar"
     };
     private static final String[] META = {
             "4 × 2 · no background · time and date",
@@ -37,7 +37,8 @@ public class MainActivity extends Activity {
             "4 × 2 · today, split by your top apps",
             "2 × 2 · opens calendar",
             "2 × 2 · charging, full, low, power saving",
-            "2 × 2 · segmented ring by app"
+            "2 × 2 · segmented ring by app",
+            "4 × 1 · up to five apps · pill, rounded or circles · glass or solid"
     };
 
     private LinearLayout items;
@@ -57,7 +58,6 @@ public class MainActivity extends Activity {
         });
 
         findViewById(R.id.update_btn).setOnClickListener(v -> onUpdateTapped());
-        findViewById(R.id.dock_btn).setOnClickListener(v -> startActivity(new Intent(this, DockActivity.class)));
 
         findViewById(R.id.usage_btn).setOnClickListener(v -> {
             try {
@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
         for (int kind = 0; kind < NAMES.length; kind++) {
             boolean wide = Render.DEFAULT_W[kind] > 300;
             float w = wide ? wideW : 184f;
-            float h = wide ? wideH : 204f;
+            float h = kind == Render.DOCK ? 96f : (wide ? wideH : 204f);
             add(kind, w, h, wide);
         }
     }
@@ -195,7 +195,13 @@ public class MainActivity extends Activity {
         }
 
         final Class<?> provider = W.ALL[kind];
-        row.findViewById(R.id.add).setOnClickListener(v -> pin(provider));
+        if (kind == Render.DOCK) {
+            // Pick the apps first, then the widget is placed with them already in.
+            row.findViewById(R.id.add).setOnClickListener(v ->
+                    startActivity(new Intent(this, DockConfig.class).putExtra(DockConfig.EXTRA_PIN, true)));
+        } else {
+            row.findViewById(R.id.add).setOnClickListener(v -> pin(provider));
+        }
         items.addView(row);
     }
 

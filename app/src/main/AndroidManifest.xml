@@ -10,7 +10,6 @@
         android:maxSdkVersion="32" />
     <!-- In-app updates from the project's GitHub release. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- Screen time: the user turns this on in Settings → Usage access. -->
     <uses-permission
@@ -55,10 +54,19 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".W$Dock" android:exported="true" android:label="@string/w_dock">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/info_dock" />
+        </receiver>
+
         <activity
-            android:name=".DockActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:name=".DockConfig"
+            android:exported="true"
+            android:theme="@style/AppTheme"
+            android:excludeFromRecents="true"
+            android:taskAffinity="">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" /></intent-filter>
+        </activity>
 
         <receiver android:name=".W$Display" android:exported="true" android:label="@string/w_display">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>

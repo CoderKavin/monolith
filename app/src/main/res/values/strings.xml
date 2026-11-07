@@ -35,4 +35,6 @@
     <string name="saver_off">Android only lets an app switch power saving after a one-time grant from a computer:\n\nadb shell pm grant com.monolith.widgets android.permission.WRITE_SECURE_SETTINGS\n\nUntil then, tapping the widget opens the power saving screen.</string>
     <string name="saver_on">Granted. Tapping the Battery widget switches power saving on and off.</string>
     <string name="tip">Set Settings → Apps → Monolith → Battery → Unrestricted so Battery and Screen time stay current. Clocks keep time on their own.</string>
+    <string name="w_dock">Dock bar</string>
+    <string name="d_dock">Up to five apps on a glass or solid bar: pill, rounded, or one circle per app. Put it on the bottom row.</string>
 </resources>
