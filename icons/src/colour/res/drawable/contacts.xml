@@ -2,13 +2,16 @@
 <!-- Generated from the Monolith icon design (Contacts). Do not edit by hand. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
     android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
-    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#E2EBFF"/>
-  <group android:translateX="6" android:translateY="5.45">
-      <path android:pathData="M3.6 21a8.4 8.4 0 0 1 16.8 0z" android:fillType="evenOdd" android:fillAlpha="0.5">
-        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="12.6" android:endX="12" android:endY="21" android:startColor="#5E9AF8" android:endColor="#2C6BE6"/></aapt:attr>
+    <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="#FFFFFF"/>
+  <group android:translateX="6.15" android:translateY="5.3">
+      <path android:pathData="M2.4,21a8,8 0 0 1 16,0z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="10.4" android:startY="13" android:endX="10.4" android:endY="21" android:startColor="#3A6FF0" android:endColor="#1F4FD0"/></aapt:attr>
       </path>
-      <path android:pathData="M7.2,8.1a4.8,4.8 0 1 0 9.6,0a4.8,4.8 0 1 0 -9.6,0z" android:fillType="evenOdd">
-        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12" android:startY="3.3" android:endX="12" android:endY="12.902" android:startColor="#5E9AF8" android:endColor="#2C6BE6"/></aapt:attr>
+      <path android:pathData="M5.6,21a7.8,7.8 0 0 1 15.6,0z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="13.4" android:startY="13.2" android:endX="13.4" android:endY="21" android:startColor="#8CC0FF" android:endColor="#2F7CF6"/></aapt:attr>
+      </path>
+      <path android:pathData="M8.3,7.6a4.3,4.3 0 1 0 8.6,0a4.3,4.3 0 1 0 -8.6,0z" android:fillType="evenOdd">
+        <aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="12.6" android:startY="3.3" android:endX="12.6" android:endY="11.9" android:startColor="#8CC0FF" android:endColor="#2F7CF6"/></aapt:attr>
       </path>
   </group>
 </vector>

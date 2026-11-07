@@ -3,8 +3,9 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
     android:width="192dp" android:height="192dp" android:viewportWidth="36" android:viewportHeight="36">
     <path android:pathData="M18,0A18,18 0 1,1 18,36A18,18 0 1,1 18,0Z" android:fillType="evenOdd" android:fillColor="@color/th_bg"/>
-  <group android:translateX="6" android:translateY="5.45">
-      <path android:pathData="M3.6 21a8.4 8.4 0 0 1 16.8 0z" android:fillType="evenOdd" android:fillColor="@color/th_fg" android:fillAlpha="0.55"/>
-      <path android:pathData="M7.2,8.1a4.8,4.8 0 1 0 9.6,0a4.8,4.8 0 1 0 -9.6,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg"/>
+  <group android:translateX="6.15" android:translateY="5.3">
+      <path android:pathData="M2.4,21a8,8 0 0 1 16,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg" android:fillAlpha="0.55"/>
+      <path android:pathData="M5.6,21a7.8,7.8 0 0 1 15.6,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg"/>
+      <path android:pathData="M8.3,7.6a4.3,4.3 0 1 0 8.6,0a4.3,4.3 0 1 0 -8.6,0z" android:fillType="evenOdd" android:fillColor="@color/th_fg"/>
   </group>
 </vector>
