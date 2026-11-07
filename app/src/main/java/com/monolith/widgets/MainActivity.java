@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.graphics.Insets;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
@@ -16,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 
 /** Gallery: live previews rendered from the real widget code, one-tap Add, and the two setup cards. */
 public class MainActivity extends Activity {
@@ -51,6 +56,8 @@ public class MainActivity extends Activity {
             return insets;
         });
 
+        findViewById(R.id.update_btn).setOnClickListener(v -> onUpdateTapped());
+
         findViewById(R.id.usage_btn).setOnClickListener(v -> {
             try {
                 startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
@@ -72,6 +79,89 @@ public class MainActivity extends Activity {
         // Widgets on the home screen pick up a newly granted permission straight away.
         Refresh.refreshAll(this);
         rebuildGallery();
+        if (!updating) checkForUpdate();
+    }
+
+    // ------------------------------------------------------------------ updates
+
+    private long latest = -1;
+    private boolean updating;
+
+    private void checkForUpdate() {
+        ((TextView) findViewById(R.id.update_body)).setText(R.string.update_checking);
+        new Thread(() -> {
+            long l = Updater.latestVersion();
+            runOnUiThread(() -> showUpdateState(l));
+        }).start();
+    }
+
+    private void showUpdateState(long l) {
+        latest = l;
+        TextView body = findViewById(R.id.update_body);
+        TextView btn = findViewById(R.id.update_btn);
+        String name = "Version " + Updater.installedName(this);
+        if (l < 0) {
+            body.setText(name + " · couldn't reach GitHub");
+            btn.setText(R.string.update_check);
+        } else if (l > Updater.installedVersion(this)) {
+            body.setText("A newer version is ready to install");
+            btn.setText(R.string.update_now);
+        } else {
+            body.setText(name + " · up to date");
+            btn.setText(R.string.update_check);
+        }
+    }
+
+    private void onUpdateTapped() {
+        if (updating) return;
+        if (latest > Updater.installedVersion(this)) startUpdate();
+        else checkForUpdate();
+    }
+
+    private void startUpdate() {
+        if (!getPackageManager().canRequestPackageInstalls()) {
+            Toast.makeText(this, "Allow Monolith to install updates, then tap Update again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Uri.parse("package:" + getPackageName())));
+            return;
+        }
+        updating = true;
+        ((TextView) findViewById(R.id.update_body)).setText(R.string.update_working);
+        new Thread(() -> {
+            try {
+                File apk = Updater.download(this);
+                runOnUiThread(() -> {
+                    try {
+                        Updater.install(this, apk);
+                    } catch (IOException e) {
+                        updateFailed(e.getMessage());
+                    }
+                });
+            } catch (IOException e) {
+                runOnUiThread(() -> updateFailed(e.getMessage()));
+            }
+        }).start();
+    }
+
+    private void updateFailed(String why) {
+        updating = false;
+        ((TextView) findViewById(R.id.update_body)).setText("Update failed" + (why != null ? ": " + why : ""));
+        ((TextView) findViewById(R.id.update_btn)).setText(R.string.update_check);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (!Updater.ACTION_INSTALL_STATUS.equals(intent.getAction())) return;
+        int status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE);
+        if (status == PackageInstaller.STATUS_PENDING_USER_ACTION) {
+            // Android shows its own "Update this app?" confirmation.
+            @SuppressWarnings("deprecation")
+            Intent confirm = intent.getParcelableExtra(Intent.EXTRA_INTENT);
+            if (confirm != null) startActivity(confirm);
+        } else if (status != PackageInstaller.STATUS_SUCCESS) {
+            updateFailed(intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE));
+        }
     }
 
     private void rebuildGallery() {

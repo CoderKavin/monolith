@@ -1,0 +1,114 @@
+package com.monolith.widgets;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+/**
+ * Pulls the newest build from this project's GitHub release ("latest") and installs it in place.
+ * Network work runs on a background thread; callers get results on that thread.
+ */
+final class Updater {
+
+    private Updater() {}
+
+    static final String BASE = "https://github.com/CoderKavin/monolith/releases/download/latest/";
+    static final String ACTION_INSTALL_STATUS = "com.monolith.widgets.INSTALL_STATUS";
+
+    static long installedVersion(Context c) {
+        try {
+            PackageInfo info = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
+            return info.getLongVersionCode();
+        } catch (PackageManager.NameNotFoundException e) {
+            return 0;
+        }
+    }
+
+    static String installedName(Context c) {
+        try {
+            return c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "?";
+        }
+    }
+
+    /** Latest published version code, or -1 if it can't be reached. */
+    static long latestVersion() {
+        HttpURLConnection conn = null;
+        try {
+            conn = open(BASE + "version.txt");
+            if (conn.getResponseCode() != 200) return -1;
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line = r.readLine();
+                return line == null ? -1 : Long.parseLong(line.trim());
+            }
+        } catch (IOException | NumberFormatException e) {
+            return -1;
+        } finally {
+            if (conn != null) conn.disconnect();
+        }
+    }
+
+    /** Downloads the APK to the app's cache. */
+    static File download(Context c) throws IOException {
+        File out = new File(c.getCacheDir(), "update.apk");
+        HttpURLConnection conn = open(BASE + "Monolith.apk");
+        try {
+            if (conn.getResponseCode() != 200) throw new IOException("HTTP " + conn.getResponseCode());
+            try (InputStream in = conn.getInputStream(); OutputStream os = new FileOutputStream(out)) {
+                byte[] buf = new byte[64 * 1024];
+                int n;
+                while ((n = in.read(buf)) > 0) os.write(buf, 0, n);
+            }
+        } finally {
+            conn.disconnect();
+        }
+        return out;
+    }
+
+    /** Hands the APK to Android's installer; the result comes back to the activity as a new intent. */
+    static void install(Activity a, File apk) throws IOException {
+        PackageInstaller installer = a.getPackageManager().getPackageInstaller();
+        PackageInstaller.SessionParams params =
+                new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+        params.setAppPackageName(a.getPackageName());
+        int id = installer.createSession(params);
+        try (PackageInstaller.Session session = installer.openSession(id)) {
+            try (InputStream in = new FileInputStream(apk);
+                 OutputStream out = session.openWrite("monolith", 0, apk.length())) {
+                byte[] buf = new byte[64 * 1024];
+                int n;
+                while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
+                session.fsync(out);
+            }
+            Intent status = new Intent(a, MainActivity.class).setAction(ACTION_INSTALL_STATUS);
+            PendingIntent pi = PendingIntent.getActivity(a, 42, status,
+                    PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            session.commit(pi.getIntentSender());
+        }
+    }
+
+    private static HttpURLConnection open(String url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setInstanceFollowRedirects(true);
+        conn.setConnectTimeout(15_000);
+        conn.setReadTimeout(60_000);
+        conn.setRequestProperty("User-Agent", "Monolith-Updater");
+        return conn;
+    }
+}

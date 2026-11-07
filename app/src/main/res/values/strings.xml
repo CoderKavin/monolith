@@ -21,6 +21,11 @@
     <string name="d_screen_small">Today\'s screen time as a segmented ring.</string>
 
     <string name="add">Add</string>
+    <string name="update_title">Updates</string>
+    <string name="update_checking">Checking for a newer version…</string>
+    <string name="update_check">Check</string>
+    <string name="update_now">Update</string>
+    <string name="update_working">Downloading…</string>
     <string name="tagline">Material 3 Expressive widgets. Colours follow your wallpaper and light or dark mode.</string>
     <string name="usage_title">Screen time</string>
     <string name="usage_off">Needs Usage access to read how long you use each app. Nothing leaves your phone.</string>

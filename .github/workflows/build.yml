@@ -28,6 +28,8 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/release/app-release.apk Monolith.apk
+          # The app compares this number with its own version to offer updates.
+          echo $(( GITHUB_RUN_NUMBER + 100 )) > version.txt
 
       - uses: actions/upload-artifact@v4
         with:
@@ -40,7 +42,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest Monolith.apk \
+          gh release create latest Monolith.apk version.txt \
             --title "Monolith (latest build)" \
             --notes "Open this page on your phone and tap Monolith.apk to install." \
             --target "${GITHUB_SHA}"
