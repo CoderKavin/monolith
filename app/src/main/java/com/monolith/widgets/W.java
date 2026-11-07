@@ -13,18 +13,10 @@ public final class W {
     public static class Month extends Base { @Override int kind() { return Render.MONTH; } }
     public static class Battery extends Base { @Override int kind() { return Render.BATTERY; } }
     public static class ScreenSmall extends Base { @Override int kind() { return Render.SCREEN_SMALL; } }
-    public static class Dock extends Base {
-        @Override int kind() { return Render.DOCK; }
-
-        @Override
-        public void onDeleted(android.content.Context c, int[] ids) {
-            for (int id : ids) com.monolith.widgets.Dock.delete(c, id);
-        }
-    }
 
     /** Indexed by Render kind. */
     static final Class<?>[] ALL = {
             Display.class, Centred.class, Card.class, Week.class,
-            Screen.class, Month.class, Battery.class, ScreenSmall.class, Dock.class
+            Screen.class, Month.class, Battery.class, ScreenSmall.class
     };
 }

@@ -18,22 +18,9 @@ import android.os.Looper;
  */
 public class Refresh extends BroadcastReceiver {
 
-    static final String ACTION_DOCK_PINNED = "com.monolith.widgets.DOCK_PINNED";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         final Context c = context.getApplicationContext();
-        if (ACTION_DOCK_PINNED.equals(intent.getAction())) {
-            // The dock bar picked in Monolith has just landed on the home screen: give it its apps.
-            int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            Dock.Config cfg = Dock.takePending(c);
-            if (id != AppWidgetManager.INVALID_APPWIDGET_ID && cfg != null && Dock.load(c, id) == null) {
-                Dock.save(c, id, cfg);
-            }
-            if (id != AppWidgetManager.INVALID_APPWIDGET_ID) Base.push(c, AppWidgetManager.getInstance(c), id, Render.DOCK);
-            schedule(c);
-            return;
-        }
         if (Render.ACTION_TOGGLE_SAVER.equals(intent.getAction())) {
             Data.toggleSaver(c);
             // Power saving takes a moment to switch; redraw once it has.
