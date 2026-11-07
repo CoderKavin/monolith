@@ -47,6 +47,13 @@ public class Refresh extends BroadcastReceiver {
         }
     }
 
+    static void refreshKind(Context c, int kind) {
+        AppWidgetManager m = AppWidgetManager.getInstance(c);
+        for (int id : m.getAppWidgetIds(new ComponentName(c, W.ALL[kind]))) {
+            Base.push(c, m, id, kind);
+        }
+    }
+
     static boolean anyWidgets(Context c) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
         for (Class<?> cls : W.ALL) {

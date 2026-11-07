@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Battery · charging and full (2×2). Card fills with the primary container colour. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Battery · charging and full (2×2). No header: the state shows as a small icon under the percentage and in the card colour. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/g_card_primary"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="14dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:id="@+id/b_icon" android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/ic_bolt" android:tint="@color/g_on_primary_c" />
-        <ImageView android:id="@+id/b_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_primary_c" />
-    </LinearLayout>
+    <ImageView android:id="@+id/b_track" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_track_on_pri" />
+    <ImageView android:id="@+id/b_act" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_on_primary_c" />
 
-    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="10dp" android:layout_weight="1">
-        <ImageView android:id="@+id/b_track" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_track_on_pri" />
-        <ImageView android:id="@+id/b_act" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_on_primary_c" />
-        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
             <ImageView android:id="@+id/b_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_primary_c" />
             <ImageView android:id="@+id/b_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:tint="@color/g_on_primary_c" />
         </FrameLayout>
-    </FrameLayout>
-</LinearLayout>
+        <ImageView android:id="@+id/b_icon" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginTop="4dp" android:src="@drawable/ic_bolt" android:tint="@color/g_on_primary_c" />
+    </LinearLayout>
+</FrameLayout>

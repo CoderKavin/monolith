@@ -155,25 +155,23 @@ final class Render {
     private static RemoteViews battery(Context c, float wDp, float hDp) {
         Data.Battery b = Data.battery(c);
         int layout;
-        String label;
         int icon = 0;
         switch (b.state) {
-            case Data.B_LOW: layout = R.layout.g_battery_low; label = "Low battery"; break;
-            case Data.B_CHARGING: layout = R.layout.g_battery_charge; label = "Charging"; break;
-            case Data.B_FULL: layout = R.layout.g_battery_charge; label = "Full"; icon = R.drawable.ic_check; break;
-            case Data.B_SAVER: layout = R.layout.g_battery_saver; label = "Power saving"; break;
-            default: layout = R.layout.g_battery; label = "Battery";
+            case Data.B_LOW: layout = R.layout.g_battery_low; break;
+            case Data.B_CHARGING: layout = R.layout.g_battery_charge; break;
+            case Data.B_FULL: layout = R.layout.g_battery_charge; icon = R.drawable.ic_check; break;
+            case Data.B_SAVER: layout = R.layout.g_battery_saver; break;
+            default: layout = R.layout.g_battery;
         }
         RemoteViews v = new RemoteViews(c.getPackageName(), layout);
         if (icon != 0) v.setImageViewResource(R.id.b_icon, icon);
-        v.setImageViewBitmap(R.id.b_label, Txt.label(c, label, R540, 14f, 0f));
 
-        float side = Math.max(48f, Math.min(wDp - 32f, hDp - 32f - 20f - 10f));
+        float side = Math.max(48f, Math.min(wDp - 28f, hDp - 28f));
         Bitmap[] ring = Gfx.wavyRing(Math.round(Txt.dp(c, side)), b.level / 100f);
         v.setImageViewBitmap(R.id.b_track, ring[0]);
         v.setImageViewBitmap(R.id.b_act, ring[1]);
 
-        Bitmap[] level = Txt.twoTone(c, b.level + "%", R620, 40f, 0.4f, -0.02f);
+        Bitmap[] level = Txt.twoTone(c, b.level + "%", R620, 44f, 0.4f, -0.02f);
         v.setImageViewBitmap(R.id.b_num, level[0]);
         v.setImageViewBitmap(R.id.b_unit, level[1]);
 
