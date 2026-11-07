@@ -23,6 +23,11 @@
     <!-- Needed to show app names for screen time and to leave launchers out of the count. -->
     <queries>
         <package android:name="com.samsung.android.themedesigner" />
+        <package android:name="com.sec.android.app.clockpackage" />
+        <package android:name="com.google.android.deskclock" />
+        <intent>
+            <action android:name="android.intent.action.SHOW_ALARMS" />
+        </intent>
         <package android:name="com.monolith.icons.colour" />
         <package android:name="com.monolith.icons.themed" />
         <intent>

@@ -295,8 +295,21 @@ final class Render {
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+    /** Opens the clock app itself (its home screen), not straight into the alarm list. */
     private static PendingIntent openAlarms(Context c) {
-        return activity(c, new Intent(AlarmClock.ACTION_SHOW_ALARMS), 1);
+        android.content.pm.PackageManager pm = c.getPackageManager();
+        Intent launch = null;
+        // The app set to handle alarms, unless Android would show a chooser.
+        android.content.pm.ResolveInfo ri = pm.resolveActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS), 0);
+        if (ri != null && ri.activityInfo != null && !"android".equals(ri.activityInfo.packageName)) {
+            launch = pm.getLaunchIntentForPackage(ri.activityInfo.packageName);
+        }
+        for (String pkg : new String[]{"com.google.android.deskclock", "com.sec.android.app.clockpackage"}) {
+            if (launch == null) launch = pm.getLaunchIntentForPackage(pkg);
+        }
+        if (launch == null) launch = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
+        launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        return activity(c, launch, 1);
     }
 
     private static PendingIntent openCalendar(Context c) {
