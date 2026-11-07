@@ -2,9 +2,9 @@
 <!-- Light theme. Every role maps to the wallpaper-derived Material You palette (Android 12+). -->
 <resources>
     <color name="g_surface">@android:color/system_accent2_50</color>
-    <color name="g_surface_high">@android:color/system_accent2_100</color>
-    <color name="g_on_surface">@android:color/system_neutral1_900</color>
-    <color name="g_on_surface_var">@android:color/system_neutral2_700</color>
+    <color name="g_surface_high">#66FFFFFF</color>
+    <color name="g_on_surface">#FF1B1C1F</color>
+    <color name="g_on_surface_var">#A31B1C1F</color>
 
     <color name="g_primary">@android:color/system_accent1_600</color>
     <color name="g_on_primary">@android:color/system_accent1_0</color>
@@ -13,15 +13,15 @@
     <color name="g_track_on_pri">@android:color/system_accent1_300</color>
 
     <color name="g_secondary">@android:color/system_accent2_400</color>
-    <color name="g_secondary_c">@android:color/system_accent2_100</color>
-    <color name="g_on_secondary_c">@android:color/system_accent2_900</color>
+    <color name="g_secondary_c">#80FFFFFF</color>
+    <color name="g_on_secondary_c">#FF1B1C1F</color>
 
     <color name="g_tertiary">@android:color/system_accent3_500</color>
     <color name="g_tertiary_c">@android:color/system_accent3_100</color>
     <color name="g_on_tertiary_c">@android:color/system_accent3_900</color>
     <color name="g_track_on_ter">@android:color/system_accent3_300</color>
 
-    <color name="g_track">@android:color/system_accent2_200</color>
+    <color name="g_track">#24000000</color>
     <color name="g_error">#FFB3261E</color>
 
     <color name="g_on_wall">@android:color/system_neutral1_900</color>
@@ -36,4 +36,7 @@
     <color name="app_bg">#FF0B0B0C</color>
     <color name="stage">@android:color/system_accent1_200</color>
     <color name="icon_bg">#FF0E0E10</color>
+    <color name="glass_top">#B8FFFFFF</color>
+    <color name="glass_bottom">#73FFFFFF</color>
+    <color name="glass_edge">#E6FFFFFF</color>
 </resources>
