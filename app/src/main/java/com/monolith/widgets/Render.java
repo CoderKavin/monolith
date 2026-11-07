@@ -239,20 +239,30 @@ final class Render {
         Data.Screen s = Data.screen(c);
         if (!s.allowed) return permission(c);
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.g_screen_small);
-        v.setImageViewBitmap(R.id.ss_label, Txt.label(c, "Screen time", T540, 14f, 0f));
 
-        Bitmap[] total = Txt.twoTone(c, Data.fmt(s.today), R620, 28f, 0.5f, -0.02f);
+        Bitmap[] total = Txt.twoTone(c, Data.fmt(s.today), R620, 30f, 0.5f, -0.02f);
         v.setImageViewBitmap(R.id.ss_num, total[0]);
         v.setImageViewBitmap(R.id.ss_unit, total[1]);
 
+        // Change since the same time yesterday, as "↑ 24m" / "↓ 18m" / "Same".
         long diff = s.today - s.yesterdaySameTime;
-        String delta;
-        if (s.yesterdaySameTime <= 0) delta = "Today so far";
-        else if (Math.abs(diff) < 60_000L) delta = "Same as yesterday";
-        else delta = Data.fmt(Math.abs(diff)) + (diff < 0 ? " less than yesterday" : " more than yesterday");
-        v.setImageViewBitmap(R.id.ss_delta, Txt.label(c, delta, T540, 12f, 0f));
+        if (s.yesterdaySameTime <= 0) {
+            v.setViewVisibility(R.id.ss_chip, View.GONE);
+        } else {
+            v.setViewVisibility(R.id.ss_chip, View.VISIBLE);
+            String text;
+            if (Math.abs(diff) < 60_000L) {
+                v.setViewVisibility(R.id.ss_arrow, View.GONE);
+                text = "Same";
+            } else {
+                v.setViewVisibility(R.id.ss_arrow, View.VISIBLE);
+                v.setImageViewResource(R.id.ss_arrow, diff < 0 ? R.drawable.ic_arrow_down : R.drawable.ic_arrow_up);
+                text = Data.fmt(Math.abs(diff));
+            }
+            v.setImageViewBitmap(R.id.ss_delta, Txt.label(c, text, T540, 12f, 0f));
+        }
 
-        float side = Math.max(48f, Math.min(wDp - 32f, hDp - 30f - 20f - 10f - 26f));
+        float side = Math.max(48f, Math.min(wDp - 28f, hDp - 28f - 10f - 26f));
         Bitmap[] ring = Gfx.segmentedRing(Math.round(Txt.dp(c, side)), s.segments);
         for (int i = 0; i < RING.length; i++) v.setImageViewBitmap(RING[i], ring[i]);
         v.setOnClickPendingIntent(android.R.id.background, openApp(c));

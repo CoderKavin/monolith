@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Screen time · small (2×2) -->
+<!-- Screen time · small (2×2): ring with today's total, and a chip with the change since
+     yesterday at the same time (arrow + duration). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
@@ -7,17 +8,9 @@
     android:background="@drawable/g_card"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="14dp">
+    android:padding="14dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="15dp" android:layout_height="15dp" android:src="@drawable/ic_hourglass" android:tint="@color/g_on_surface_var" />
-        <ImageView android:id="@+id/ss_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:tint="@color/g_on_surface_var" />
-    </LinearLayout>
-
-    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="10dp" android:layout_weight="1">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
         <ImageView android:id="@+id/ss0" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_primary" />
         <ImageView android:id="@+id/ss1" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_tertiary" />
         <ImageView android:id="@+id/ss2" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_secondary" />
@@ -28,5 +21,17 @@
         </FrameLayout>
     </FrameLayout>
 
-    <ImageView android:id="@+id/ss_delta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:tint="@color/g_on_surface_var" />
+    <LinearLayout
+        android:id="@+id/ss_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/g_chip_secondary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="10dp">
+        <ImageView android:id="@+id/ss_arrow" android:layout_width="13dp" android:layout_height="13dp" android:src="@drawable/ic_arrow_down" android:tint="@color/g_on_secondary_c" />
+        <ImageView android:id="@+id/ss_delta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:tint="@color/g_on_secondary_c" />
+    </LinearLayout>
 </LinearLayout>
