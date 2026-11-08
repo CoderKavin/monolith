@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Battery · charging and full (2×2). No header: the state shows as a small icon under the percentage and in the card colour. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/g_card_charge"
+    android:padding="14dp">
+
+    <ImageView android:id="@+id/b_track" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_charge_track" />
+    <ImageView android:id="@+id/b_act" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_on_charge" />
+
+    <!-- While charging, the moving wave (layout/wave_NN) replaces the still arc above. -->
+    <ProgressBar android:id="@+id/b_wave" android:layout_width="120dp" android:layout_height="120dp" android:layout_gravity="center" android:indeterminate="true" android:indeterminateBehavior="repeat" android:indeterminateDuration="1000" android:indeterminateDrawable="@drawable/charge_wave_64" android:indeterminateTint="@color/g_on_charge" android:indeterminateTintMode="src_in" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/b_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:tint="@color/g_on_charge" />
+            <ImageView android:id="@+id/b_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.8" android:tint="@color/g_on_charge" />
+        </FrameLayout>
+        <ImageView android:id="@+id/b_icon" android:layout_width="16dp" android:layout_height="16dp" android:layout_marginTop="4dp" android:src="@drawable/ic_bolt" android:tint="@color/g_on_charge" />
+    </LinearLayout>
+</FrameLayout>

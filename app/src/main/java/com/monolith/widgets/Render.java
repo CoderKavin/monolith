@@ -159,33 +159,25 @@ final class Render {
         int icon = 0;
         switch (b.state) {
             case Data.B_LOW: layout = R.layout.g_battery_low; break;
-            case Data.B_CHARGING: layout = R.layout.g_battery_charge; break;
+            case Data.B_CHARGING: layout = chargingLayout(c, b.level); break;
             case Data.B_FULL: layout = R.layout.g_battery_charge; icon = R.drawable.ic_check; break;
             case Data.B_SAVER: layout = R.layout.g_battery_saver; break;
             default: layout = R.layout.g_battery;
         }
         RemoteViews v = new RemoteViews(c.getPackageName(), layout);
         if (icon != 0) v.setImageViewResource(R.id.b_icon, icon);
+        boolean wave = b.state == Data.B_CHARGING && layout != R.layout.g_battery_charge;
 
         float side = Math.max(48f, Math.min(wDp - 28f, hDp - 28f));
         Bitmap[] ring = Gfx.wavyRing(Math.round(Txt.dp(c, side)), b.level / 100f);
         v.setImageViewBitmap(R.id.b_track, ring[0]);
         v.setImageViewBitmap(R.id.b_act, ring[1]);
-        if (b.state == Data.B_CHARGING) {
-            // Charging: the wavy arc flows forward, like Google's charging animation.
-            // Wave drawings exist in 4% steps.
-            int bucket = Math.max(4, Math.min(100, Math.round(b.level / 4f) * 4));
-            int waveLayout = c.getResources().getIdentifier("wave_" + bucket, "layout", c.getPackageName());
-            if (waveLayout != 0 && waveWorks(c, waveLayout)) {
-                RemoteViews wave = new RemoteViews(c.getPackageName(), waveLayout);
-                wave.setViewLayoutWidth(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
-                wave.setViewLayoutHeight(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
-                v.removeAllViews(R.id.b_wave);
-                v.addView(R.id.b_wave, wave);
-                v.setViewVisibility(R.id.b_act, View.INVISIBLE);
-            }
+        if (wave) {
+            // The wave replaces the still arc; sized to the ring.
+            v.setViewVisibility(R.id.b_act, View.INVISIBLE);
+            v.setViewLayoutWidth(R.id.b_wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
+            v.setViewLayoutHeight(R.id.b_wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
         }
-
         Bitmap[] level = Txt.twoTone(c, b.level + "%", R620, 44f, 0.4f, -0.02f);
         v.setImageViewBitmap(R.id.b_num, level[0]);
         v.setImageViewBitmap(R.id.b_unit, level[1]);
@@ -197,29 +189,28 @@ final class Render {
         return v;
     }
 
-    /**
-     * Builds the wave once in our own process before handing it to the launcher. If it fails
-     * here it would fail on the home screen too ("Couldn't add widget"), so the widget keeps
-     * the still ring and the reason is saved for the app to show.
-     */
     private static Boolean waveOk;
 
-    private static boolean waveWorks(Context c, int layout) {
-        if (waveOk != null) return waveOk;
-        try {
-            android.widget.FrameLayout host = new android.widget.FrameLayout(c);
-            View w = new RemoteViews(c.getPackageName(), layout).apply(c, host);
-            host.addView(w);
-            android.graphics.drawable.Drawable d = ((android.widget.ProgressBar) w).getIndeterminateDrawable();
-            if (d == null) throw new IllegalStateException("wave drawable missing");
-            waveOk = true;
-            c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit().remove("wave").apply();
-        } catch (Throwable t) {
-            waveOk = false;
-            c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit()
-                    .putString("wave", t.getClass().getSimpleName() + ": " + t.getMessage()).apply();
+    /**
+     * Charging layout with the flowing wave for this level (4% steps). It's test-inflated once in
+     * our own process first; if that fails the widget keeps the still ring and the app shows why.
+     */
+    private static int chargingLayout(Context c, int level) {
+        int bucket = Math.max(4, Math.min(100, Math.round(level / 4f) * 4));
+        int id = c.getResources().getIdentifier("g_battery_charge_" + bucket, "layout", c.getPackageName());
+        if (id == 0) return R.layout.g_battery_charge;
+        if (waveOk == null) {
+            try {
+                android.view.LayoutInflater.from(c).inflate(id, new android.widget.FrameLayout(c), false);
+                waveOk = true;
+                c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit().remove("wave").apply();
+            } catch (Throwable t) {
+                waveOk = false;
+                c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit()
+                        .putString("wave", t.getClass().getSimpleName() + ": " + t.getMessage()).apply();
+            }
         }
-        return waveOk;
+        return waveOk ? id : R.layout.g_battery_charge;
     }
 
     // ------------------------------------------------------------------ screen time
