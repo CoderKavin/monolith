@@ -172,6 +172,19 @@ final class Render {
         Bitmap[] ring = Gfx.wavyRing(Math.round(Txt.dp(c, side)), b.level / 100f);
         v.setImageViewBitmap(R.id.b_track, ring[0]);
         v.setImageViewBitmap(R.id.b_act, ring[1]);
+        if (b.state == Data.B_CHARGING) {
+            // Charging: the wavy arc flows forward, like Google's charging animation.
+            int bucket = Math.max(2, Math.min(100, Math.round(b.level / 2f) * 2));
+            int waveLayout = c.getResources().getIdentifier("wave_" + bucket, "layout", c.getPackageName());
+            if (waveLayout != 0) {
+                RemoteViews wave = new RemoteViews(c.getPackageName(), waveLayout);
+                wave.setViewLayoutWidth(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
+                wave.setViewLayoutHeight(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
+                v.removeAllViews(R.id.b_wave);
+                v.addView(R.id.b_wave, wave);
+                v.setViewVisibility(R.id.b_act, View.INVISIBLE);
+            }
+        }
 
         Bitmap[] level = Txt.twoTone(c, b.level + "%", R620, 44f, 0.4f, -0.02f);
         v.setImageViewBitmap(R.id.b_num, level[0]);
