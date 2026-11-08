@@ -69,11 +69,47 @@ final class Txt {
         return b;
     }
 
+    /**
+     * The text's real ink, measured from drawn pixels, relative to the drawing origin (baseline at
+     * y = 0). getTextBounds() can fall a few pixels short with rounded fonts and tight spacing,
+     * which clipped the last digit.
+     */
+    static Rect ink(Paint p, String s) {
+        Rect est = new Rect();
+        p.getTextBounds(s, 0, s.length(), est);
+        Paint.FontMetrics fm = p.getFontMetrics();
+        int m = Math.max(4, Math.round(p.getTextSize() * 0.3f));
+        int w = Math.max(est.right, Math.round(p.measureText(s))) - Math.min(0, est.left) + 2 * m;
+        int h = (int) Math.ceil(fm.bottom - fm.top) + 2 * m;
+        float ox = m - Math.min(0, est.left), oy = m - fm.top;
+        Bitmap b = Bitmap.createBitmap(Math.max(1, w), Math.max(1, h), Bitmap.Config.ALPHA_8);
+        Paint q = new Paint(p);
+        q.setColor(0xFFFFFFFF);
+        new Canvas(b).drawText(s, ox, oy, q);
+        java.nio.ByteBuffer buf = java.nio.ByteBuffer.allocate(b.getRowBytes() * b.getHeight());
+        b.copyPixelsToBuffer(buf);
+        byte[] a = buf.array();
+        int rb = b.getRowBytes();
+        int l = w, t = h, r = -1, bt = -1;
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                if ((a[y * rb + x] & 0xFF) > 8) {
+                    if (x < l) l = x;
+                    if (x > r) r = x;
+                    if (y < t) t = y;
+                    if (y > bt) bt = y;
+                }
+            }
+        }
+        b.recycle();
+        if (r < 0) return est;
+        return new Rect(Math.round(l - ox), Math.round(t - oy), Math.round(r + 1 - ox), Math.round(bt + 1 - oy));
+    }
+
     /** Font size (px) at which the text's ink fits inside maxW × maxH, capped at maxPx. */
     static float fit(Context c, String s, int font, float letterSpacing, float maxW, float maxH, float maxPx) {
         Paint p = paint(c, font, 100f, letterSpacing);
-        Rect r = new Rect();
-        p.getTextBounds(s, 0, s.length(), r);
+        Rect r = ink(p, s);
         if (r.width() <= 0 || r.height() <= 0) return maxPx;
         float k = Math.min(maxW / r.width(), maxH / r.height());
         return Math.min(maxPx, 100f * k);
@@ -86,8 +122,7 @@ final class Txt {
     static Bitmap[] display(Context c, String s, int font, float px, float letterSpacing,
                             float padPx, float blurPx, float shadowDyPx) {
         Paint p = paint(c, font, px, letterSpacing);
-        Rect r = new Rect();
-        p.getTextBounds(s, 0, s.length(), r);
+        Rect r = ink(p, s);
         int pad = Math.round(padPx);
         int w = r.width() + 2 * pad, h = r.height() + 2 * pad;
         float x = pad - r.left, y = pad - r.top;
