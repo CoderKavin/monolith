@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:indeterminate="true"
     android:indeterminateBehavior="repeat"
-    android:indeterminateDuration="1600"
+    android:indeterminateDuration="1000"
     android:indeterminateDrawable="@drawable/charge_wave_92"
     android:indeterminateTint="@color/g_on_charge"
     android:indeterminateTintMode="src_in" />
