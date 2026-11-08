@@ -174,7 +174,8 @@ final class Render {
         v.setImageViewBitmap(R.id.b_act, ring[1]);
         if (b.state == Data.B_CHARGING) {
             // Charging: the wavy arc flows forward, like Google's charging animation.
-            int bucket = Math.max(2, Math.min(100, Math.round(b.level / 2f) * 2));
+            // Wave drawings exist in 4% steps.
+            int bucket = Math.max(4, Math.min(100, Math.round(b.level / 4f) * 4));
             int waveLayout = c.getResources().getIdentifier("wave_" + bucket, "layout", c.getPackageName());
             if (waveLayout != 0 && waveWorks(c, waveLayout)) {
                 RemoteViews wave = new RemoteViews(c.getPackageName(), waveLayout);
