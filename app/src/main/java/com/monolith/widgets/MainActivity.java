@@ -110,6 +110,11 @@ public class MainActivity extends Activity {
         // Widgets on the home screen pick up a newly granted permission straight away.
         Refresh.refreshAll(this);
         Refresh.schedule(this);
+        LiveService.start(this);
+        String wave = getSharedPreferences("diag", MODE_PRIVATE).getString("wave", null);
+        ((TextView) findViewById(R.id.footer)).setText("Monolith " + Updater.installedName(this)
+                + " · Google Sans Flex · Material 3 Expressive"
+                + (wave != null ? "\n\nCharging wave off: " + wave : ""));
         rebuildGallery();
         if (!updating) checkForUpdate();
     }

@@ -176,7 +176,7 @@ final class Render {
             // Charging: the wavy arc flows forward, like Google's charging animation.
             int bucket = Math.max(2, Math.min(100, Math.round(b.level / 2f) * 2));
             int waveLayout = c.getResources().getIdentifier("wave_" + bucket, "layout", c.getPackageName());
-            if (waveLayout != 0) {
+            if (waveLayout != 0 && waveWorks(c, waveLayout)) {
                 RemoteViews wave = new RemoteViews(c.getPackageName(), waveLayout);
                 wave.setViewLayoutWidth(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
                 wave.setViewLayoutHeight(R.id.wave, side, android.util.TypedValue.COMPLEX_UNIT_DIP);
@@ -195,6 +195,31 @@ final class Render {
                 : activity(c, new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS), 11);
         v.setOnClickPendingIntent(android.R.id.background, tap);
         return v;
+    }
+
+    /**
+     * Builds the wave once in our own process before handing it to the launcher. If it fails
+     * here it would fail on the home screen too ("Couldn't add widget"), so the widget keeps
+     * the still ring and the reason is saved for the app to show.
+     */
+    private static Boolean waveOk;
+
+    private static boolean waveWorks(Context c, int layout) {
+        if (waveOk != null) return waveOk;
+        try {
+            android.widget.FrameLayout host = new android.widget.FrameLayout(c);
+            View w = new RemoteViews(c.getPackageName(), layout).apply(c, host);
+            host.addView(w);
+            android.graphics.drawable.Drawable d = ((android.widget.ProgressBar) w).getIndeterminateDrawable();
+            if (d == null) throw new IllegalStateException("wave drawable missing");
+            waveOk = true;
+            c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit().remove("wave").apply();
+        } catch (Throwable t) {
+            waveOk = false;
+            c.getSharedPreferences("diag", Context.MODE_PRIVATE).edit()
+                    .putString("wave", t.getClass().getSimpleName() + ": " + t.getMessage()).apply();
+        }
+        return waveOk;
     }
 
     // ------------------------------------------------------------------ screen time

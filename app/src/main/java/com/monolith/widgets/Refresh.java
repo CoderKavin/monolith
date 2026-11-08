@@ -36,6 +36,9 @@ public class Refresh extends BroadcastReceiver {
         }
         refreshAll(c);
         schedule(c);
+        // After a reboot or an update, bring the live battery listener back.
+        String a = intent.getAction();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(a) || Intent.ACTION_MY_PACKAGE_REPLACED.equals(a)) LiveService.start(c);
     }
 
     static void refreshAll(Context c) {
