@@ -119,7 +119,8 @@ final class Updater {
                 while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
                 session.fsync(out);
             }
-            Intent status = new Intent(a, MainActivity.class).setAction(ACTION_INSTALL_STATUS);
+            // Report back to the screen that started the install (Monolith home or Dock bar).
+            Intent status = new Intent(a, a.getClass()).setAction(ACTION_INSTALL_STATUS);
             PendingIntent pi = PendingIntent.getActivity(a, 42, status,
                     PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             session.commit(pi.getIntentSender());

@@ -26,6 +26,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/release/app-release.apk Monolith.apk
+          cp dockwall/build/outputs/apk/release/dockwall-release.apk MonolithDock.apk
           # The app compares this number with its own version to offer updates.
           echo $(( GITHUB_RUN_NUMBER + 100 )) > version.txt
 
@@ -44,5 +45,6 @@ jobs:
           gh release view latest >/dev/null 2>&1 || gh release create latest \
             --title "Monolith (latest build)" \
             --notes "Open this page on your phone and tap Monolith.apk to install."
+          gh release upload latest MonolithDock.apk --clobber
           gh release upload latest Monolith.apk --clobber
           gh release upload latest version.txt --clobber

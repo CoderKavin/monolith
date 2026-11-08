@@ -9,6 +9,10 @@
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
         android:maxSdkVersion="32" />
     <!-- In-app updates from the project's GitHub release. -->
+    <!-- Only apps signed with Monolith's key (the dock wallpaper) may read the dock picture. -->
+    <permission android:name="com.monolith.widgets.permission.DOCK_WALL" android:protectionLevel="signature" />
+    <uses-permission android:name="com.monolith.widgets.permission.DOCK_WALL" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <!-- Android only hands apps your actual wallpaper with All files access; used by Dock bar to read it. -->
@@ -25,6 +29,7 @@
 
     <!-- Needed to show app names for screen time and to leave launchers out of the count. -->
     <queries>
+        <package android:name="com.monolith.dock" />
         <package android:name="com.sec.android.app.clockpackage" />
         <package android:name="com.google.android.deskclock" />
         <intent>
@@ -57,17 +62,15 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".DockWallpaper"
+        <provider
+            android:name=".DockProvider"
+            android:authorities="com.monolith.widgets.dock"
             android:exported="true"
-            android:label="@string/dock_wallpaper"
-            android:permission="android.permission.BIND_WALLPAPER">
-            <intent-filter><action android:name="android.service.wallpaper.WallpaperService" /></intent-filter>
-            <meta-data android:name="android.service.wallpaper" android:resource="@xml/dock_wallpaper" />
-        </service>
+            android:readPermission="com.monolith.widgets.permission.DOCK_WALL" />
 
         <activity
             android:name=".DockActivity"
+            android:launchMode="singleTop"
             android:exported="false"
             android:theme="@style/AppTheme" />
 

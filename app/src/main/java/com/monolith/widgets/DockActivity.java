@@ -64,6 +64,10 @@ public class DockActivity extends Activity {
     protected void onResume() {
         super.onResume();
         loadCurrentWallpaper();
+        if (setAfterInstall && Updater.installedVersion(this, DOCK_PKG) > 0) {
+            setAfterInstall = false;
+            showOnHomeScreen();
+        }
     }
 
     /**
@@ -384,9 +388,12 @@ public class DockActivity extends Activity {
         }).start();
     }
 
+    static final String DOCK_PKG = "com.monolith.dock";
+    private boolean setAfterInstall;
+
     private boolean ourLiveWallpaperOn() {
         android.app.WallpaperInfo info = WallpaperManager.getInstance(this).getWallpaperInfo();
-        return info != null && getPackageName().equals(info.getPackageName());
+        return info != null && DOCK_PKG.equals(info.getPackageName());
     }
 
     private void apply() {
@@ -399,28 +406,77 @@ public class DockActivity extends Activity {
         new Thread(() -> {
             try {
                 Bitmap full = DockWall.compose(this, source, screenW, screenH, s, density);
-                try (FileOutputStream os = new FileOutputStream(DockWallpaper.file(this))) {
+                try (FileOutputStream os = new FileOutputStream(DockProvider.file(this))) {
                     full.compress(Bitmap.CompressFormat.PNG, 100, os);
                 }
-                runOnUiThread(() -> {
-                    if (ourLiveWallpaperOn()) {
-                        DockWallpaper.changed();
-                        status.setText("Updated. Your dock bar is set and stays still when apps open and close.");
-                    } else {
-                        // Android asks you to confirm a live wallpaper; choose Home screen.
-                        Intent i = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
-                                .putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                                        new android.content.ComponentName(this, DockWallpaper.class));
-                        try {
-                            startActivity(i);
-                            status.setText("Tap Set wallpaper and choose Home screen. The bar won't move when apps open and close.");
-                        } catch (RuntimeException e) {
-                            status.setText("Couldn't open the wallpaper picker: " + e.getMessage());
-                        }
-                    }
-                });
+                runOnUiThread(this::showOnHomeScreen);
             } catch (IOException | RuntimeException e) {
                 runOnUiThread(() -> status.setText("Couldn't prepare the wallpaper: " + e.getMessage()));
+            }
+        }).start();
+    }
+
+    /** Hands the picture to the Monolith dock wallpaper app, installing it the first time. */
+    private void showOnHomeScreen() {
+        if (Updater.installedVersion(this, DOCK_PKG) == 0) {
+            installDockApp();
+            return;
+        }
+        if (ourLiveWallpaperOn()) {
+            sendBroadcast(new Intent("com.monolith.dock.CHANGED").setPackage(DOCK_PKG),
+                    "com.monolith.widgets.permission.DOCK_WALL");
+            status.setText("Updated. The dock bar stays still, and Monolith updates won't reset it.");
+            return;
+        }
+        Intent i = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
+                .putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                        new android.content.ComponentName(DOCK_PKG, DOCK_PKG + ".DockWallpaper"));
+        try {
+            startActivity(i);
+            status.setText("Tap Set wallpaper and choose Home screen. You only do this once.");
+        } catch (RuntimeException e) {
+            status.setText("Couldn't open the wallpaper picker: " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (!Updater.ACTION_INSTALL_STATUS.equals(intent.getAction())) return;
+        int st = intent.getIntExtra(android.content.pm.PackageInstaller.EXTRA_STATUS,
+                android.content.pm.PackageInstaller.STATUS_FAILURE);
+        if (st == android.content.pm.PackageInstaller.STATUS_PENDING_USER_ACTION) {
+            @SuppressWarnings("deprecation")
+            Intent confirm = intent.getParcelableExtra(Intent.EXTRA_INTENT);
+            if (confirm != null) startActivity(confirm);
+        } else if (st != android.content.pm.PackageInstaller.STATUS_SUCCESS) {
+            setAfterInstall = false;
+            status.setText("Install didn't finish: " + intent.getStringExtra(android.content.pm.PackageInstaller.EXTRA_STATUS_MESSAGE));
+        }
+    }
+
+    /** One-time: the small Monolith dock app that shows the wallpaper. It never needs updating. */
+    private void installDockApp() {
+        if (!getPackageManager().canRequestPackageInstalls()) {
+            Toast.makeText(this, "Allow Monolith to install apps, then tap Set dock bar again", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Uri.parse("package:" + getPackageName())));
+            return;
+        }
+        status.setText("Installing the Monolith dock wallpaper (one time)…");
+        setAfterInstall = true;
+        new Thread(() -> {
+            try {
+                File apk = Updater.download(this, "MonolithDock.apk");
+                runOnUiThread(() -> {
+                    try {
+                        Updater.install(this, apk, DOCK_PKG);
+                    } catch (IOException e) {
+                        status.setText("Couldn't install it: " + e.getMessage());
+                    }
+                });
+            } catch (IOException e) {
+                runOnUiThread(() -> status.setText("Couldn't download it: " + e.getMessage()));
             }
         }).start();
     }

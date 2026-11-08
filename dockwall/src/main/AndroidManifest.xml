@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Read the picture Monolith makes (Monolith's provider only lets apps signed by us in). -->
+    <uses-permission android:name="com.monolith.widgets.permission.DOCK_WALL" />
+
+    <queries>
+        <provider android:authorities="com.monolith.widgets.dock" />
+    </queries>
+
+    <application
+        android:label="@string/name"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:allowBackup="false">
+
+        <service
+            android:name=".DockWallpaper"
+            android:exported="true"
+            android:label="@string/name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter><action android:name="android.service.wallpaper.WallpaperService" /></intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/wallpaper" />
+        </service>
+
+        <!-- Monolith pings this after you change the dock bar, so it redraws straight away. -->
+        <receiver android:name=".Changed" android:exported="true"
+            android:permission="com.monolith.widgets.permission.DOCK_WALL">
+            <intent-filter><action android:name="com.monolith.dock.CHANGED" /></intent-filter>
+        </receiver>
+    </application>
+</manifest>

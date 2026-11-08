@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Monolith Dock: the dock bar live wallpaper on its own, so updating Monolith never resets it.
+// Monolith installs it once; it only needs a new version if this module changes.
+android {
+    namespace 'com.monolith.dock'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.monolith.dock'
+        minSdk 31
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../app/monolith.jks')
+            storePassword 'monolith'
+            keyAlias 'monolith'
+            keyPassword 'monolith'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
