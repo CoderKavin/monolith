@@ -11,7 +11,7 @@
     <ImageView android:id="@+id/b_act" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:tint="@color/g_on_charge" />
 
     <!-- While charging, the moving wave (layout/wave_NN) replaces the still arc above. -->
-    <ProgressBar android:id="@+id/b_wave" android:layout_width="120dp" android:layout_height="120dp" android:layout_gravity="center" android:indeterminate="true" android:indeterminateBehavior="repeat" android:indeterminateDuration="1000" android:indeterminateDrawable="@drawable/charge_wave_32" android:indeterminateTint="@color/g_on_charge" android:indeterminateTintMode="src_in" />
+    <ProgressBar android:id="@+id/b_wave" android:layout_width="120dp" android:layout_height="120dp" android:layout_gravity="center" android:indeterminate="true" android:indeterminateBehavior="repeat" android:indeterminateDuration="1600" android:indeterminateDrawable="@drawable/charge_wave_32" android:indeterminateTint="@color/g_on_charge" android:indeterminateTintMode="src_in" />
 
     <LinearLayout
         android:layout_width="wrap_content"
