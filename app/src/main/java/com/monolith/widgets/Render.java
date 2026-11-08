@@ -56,10 +56,9 @@ final class Render {
     private static RemoteViews display(Context c, float wDp, float hDp) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.g_display);
         String time = Data.time(c);
-        // As big as the widget allows: full width, and all the height except the date line.
-        float availW = Txt.dp(c, wDp - 10f);
-        float availH = Txt.dp(c, hDp - 18f) - Txt.sp(c, 18f) * 1.35f - Txt.dp(c, 6f);
-        float px = Txt.fit(c, time, R580, -0.04f, availW, availH, Txt.sp(c, 300f));
+        float availW = Txt.dp(c, wDp - 12f);
+        float availH = Txt.dp(c, hDp - 18f - 24f - 20f);
+        float px = Txt.fit(c, time, R580, -0.04f, availW, availH, Txt.sp(c, 136f));
         onWallpaper(c, v, R.id.t, time, R580, px, -0.04f);
         onWallpaper(c, v, R.id.d, Data.longDate(), T540, Txt.sp(c, 18f), 0f);
         v.setOnClickPendingIntent(android.R.id.background, openAlarms(c));

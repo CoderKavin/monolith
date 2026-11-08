@@ -9,5 +9,5 @@
     android:indeterminateBehavior="repeat"
     android:indeterminateDuration="1600"
     android:indeterminateDrawable="@drawable/charge_wave_64"
-    android:indeterminateTint="@color/g_on_primary_c"
+    android:indeterminateTint="@color/g_on_charge"
     android:indeterminateTintMode="src_in" />

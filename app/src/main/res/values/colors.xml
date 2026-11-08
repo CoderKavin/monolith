@@ -39,4 +39,9 @@
     <color name="glass_top">#B8FFFFFF</color>
     <color name="glass_bottom">#73FFFFFF</color>
     <color name="glass_edge">#E6FFFFFF</color>
+    <!-- Charging: green glass instead of the wallpaper accent. -->
+    <color name="g_charge_top">#E6CDF4D9</color>
+    <color name="g_charge_bottom">#B3A6E6BC</color>
+    <color name="g_on_charge">#FF0C3B1E</color>
+    <color name="g_charge_track">#FF7CC497</color>
 </resources>

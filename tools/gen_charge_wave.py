@@ -65,7 +65,7 @@ for level in range(4, 101, 4):
     android:indeterminateBehavior="repeat"
     android:indeterminateDuration="1600"
     android:indeterminateDrawable="@drawable/charge_wave_%d"
-    android:indeterminateTint="@color/g_on_primary_c"
+    android:indeterminateTint="@color/g_on_charge"
     android:indeterminateTintMode="src_in" />
 """ % level
     open(os.path.join(OUT_L, 'wave_%d.xml' % level), 'w').write(lay)
