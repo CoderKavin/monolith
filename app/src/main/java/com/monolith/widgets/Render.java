@@ -68,11 +68,12 @@ final class Render {
     private static RemoteViews centred(Context c, float wDp, float hDp) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.g_centred);
         String time = Data.time(c);
-        float pad = Txt.dp(c, SHADOW_PAD_DP);
-        float availW = Txt.dp(c, wDp - 8f) - 2 * pad;
-        float availH = Txt.dp(c, hDp - 8f) - 2 * pad;
-        float px = Txt.fit(c, time, R700, -0.04f, availW, availH, Txt.sp(c, 400f));
-        onWallpaper(c, v, R.id.t, time, R700, px, -0.04f);
+        // No shadow any more, so only a hair of margin: the digits run almost edge to edge.
+        float pad = Txt.dp(c, 2f);
+        float availW = Txt.dp(c, wDp) - 2 * pad;
+        float availH = Txt.dp(c, hDp) - 2 * pad;
+        float px = Txt.fit(c, time, R700, -0.05f, availW, availH, Txt.sp(c, 420f));
+        v.setImageViewBitmap(R.id.t, Txt.display(c, time, R700, px, -0.05f, pad, 0f, 0f)[0]);
         v.setOnClickPendingIntent(android.R.id.background, openAlarms(c));
         return v;
     }
