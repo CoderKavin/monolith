@@ -260,7 +260,7 @@ final class Render {
                 v.setImageViewBitmap(LEGEND_TIME[i], Txt.label(c, Data.fmt(s.times[i]), T540, 12f, 0f));
             }
         }
-        v.setOnClickPendingIntent(android.R.id.background, openApp(c));
+        v.setOnClickPendingIntent(android.R.id.background, openScreenTime(c));
         return v;
     }
 
@@ -294,7 +294,7 @@ final class Render {
         float side = Math.max(48f, Math.min(wDp - 28f, hDp - 28f - 10f - 26f));
         Bitmap[] ring = Gfx.segmentedRing(Math.round(Txt.dp(c, side)), s.segments);
         for (int i = 0; i < RING.length; i++) v.setImageViewBitmap(RING[i], ring[i]);
-        v.setOnClickPendingIntent(android.R.id.background, openApp(c));
+        v.setOnClickPendingIntent(android.R.id.background, openScreenTime(c));
         return v;
     }
 
@@ -345,6 +345,40 @@ final class Render {
 
     private static PendingIntent openCalendar(Context c) {
         return activity(c, Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_CALENDAR), 2);
+    }
+
+    /**
+     * Your phone's own screen time page: Samsung's Digital Wellbeing (no public entry point, so we
+     * look for its main screen), else Google's Digital Wellbeing, else Monolith.
+     */
+    private static PendingIntent openScreenTime(Context c) {
+        android.content.pm.PackageManager pm = c.getPackageManager();
+        Intent target = null;
+        for (String pkg : new String[]{"com.samsung.android.forest", "com.google.android.apps.wellbeing"}) {
+            Intent launch = pm.getLaunchIntentForPackage(pkg);
+            if (launch != null) { target = launch; break; }
+            try {
+                android.content.pm.PackageInfo info = pm.getPackageInfo(pkg, android.content.pm.PackageManager.GET_ACTIVITIES);
+                if (info.activities == null) continue;
+                android.content.pm.ActivityInfo best = null;
+                int bestScore = 0;
+                for (android.content.pm.ActivityInfo ai : info.activities) {
+                    if (!ai.exported || !ai.enabled) continue;
+                    String n = ai.name.toLowerCase(java.util.Locale.ROOT);
+                    int score = n.contains("dashboard") ? 4 : n.endsWith("launcheractivity") ? 3
+                            : n.contains("main") ? 2 : n.contains("launcher") ? 1 : 0;
+                    if (score > bestScore) { bestScore = score; best = ai; }
+                }
+                if (best != null) {
+                    target = new Intent(Intent.ACTION_MAIN).setClassName(pkg, best.name);
+                    break;
+                }
+            } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
+            }
+        }
+        if (target == null) target = new Intent(c, MainActivity.class);
+        target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return activity(c, target, 4);
     }
 
     private static PendingIntent openApp(Context c) {

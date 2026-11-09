@@ -32,6 +32,8 @@
 
     <!-- Needed to show app names for screen time and to leave launchers out of the count. -->
     <queries>
+        <package android:name="com.samsung.android.forest" />
+        <package android:name="com.google.android.apps.wellbeing" />
         <package android:name="com.monolith.dock" />
         <package android:name="com.sec.android.app.clockpackage" />
         <package android:name="com.google.android.deskclock" />
